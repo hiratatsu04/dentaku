@@ -22,7 +22,7 @@ Partial Class Form1
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
+        Me.txtShowResult = New System.Windows.Forms.RichTextBox()
         Me.txtShowOperator = New System.Windows.Forms.RichTextBox()
         Me.btn7 = New System.Windows.Forms.Button()
         Me.btn8 = New System.Windows.Forms.Button()
@@ -43,25 +43,29 @@ Partial Class Form1
         Me.btnEqual = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'RichTextBox1
+        'txtShowResult
         '
-        Me.RichTextBox1.Enabled = False
-        Me.RichTextBox1.Font = New System.Drawing.Font("游ゴシック", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.RichTextBox1.Location = New System.Drawing.Point(25, 77)
-        Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(398, 91)
-        Me.RichTextBox1.TabIndex = 1
-        Me.RichTextBox1.Text = ""
+        Me.txtShowResult.Enabled = False
+        Me.txtShowResult.Font = New System.Drawing.Font("游ゴシック", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.txtShowResult.Location = New System.Drawing.Point(25, 77)
+        Me.txtShowResult.Multiline = False
+        Me.txtShowResult.Name = "txtShowResult"
+        Me.txtShowResult.ReadOnly = True
+        Me.txtShowResult.Size = New System.Drawing.Size(398, 91)
+        Me.txtShowResult.TabIndex = 1
+        Me.txtShowResult.Text = ""
         '
         'txtShowOperator
         '
         Me.txtShowOperator.Enabled = False
         Me.txtShowOperator.Font = New System.Drawing.Font("游ゴシック", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.txtShowOperator.Location = New System.Drawing.Point(25, 29)
+        Me.txtShowOperator.Multiline = False
         Me.txtShowOperator.Name = "txtShowOperator"
+        Me.txtShowOperator.ReadOnly = True
         Me.txtShowOperator.Size = New System.Drawing.Size(398, 42)
         Me.txtShowOperator.TabIndex = 1
-        Me.txtShowOperator.Text = ""
+        Me.txtShowOperator.Text = "aa"
         '
         'btn7
         '
@@ -256,7 +260,7 @@ Partial Class Form1
         Me.Controls.Add(Me.btn8)
         Me.Controls.Add(Me.btn7)
         Me.Controls.Add(Me.txtShowOperator)
-        Me.Controls.Add(Me.RichTextBox1)
+        Me.Controls.Add(Me.txtShowResult)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.Name = "Form1"
@@ -266,7 +270,7 @@ Partial Class Form1
 
     End Sub
 
-    Friend WithEvents RichTextBox1 As RichTextBox
+    Friend WithEvents txtShowResult As RichTextBox
     Friend WithEvents txtShowOperator As RichTextBox
     Friend WithEvents btn7 As Button
     Friend WithEvents btn8 As Button
