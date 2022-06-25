@@ -2,7 +2,8 @@
 
     Dim Num1 As Integer = 0
     Dim Num2 As Integer = 0
-    Dim Operat As String
+    Dim Operat As String = ""
+    Dim PreBtn As Integer
 
     Private Sub NumButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
 
@@ -40,12 +41,30 @@
 
         If Operat = "" Then
             Dim Num1Text = Num1.ToString() & NumTemp.ToString()
-            Integer.TryParse(Num1Text, Num1)
+            Integer.TryParse(Num1Text, Num1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
             txtShowResult.Text = Num1.ToString()
             Return
         End If
 
-        txtShowResult.Text = NumTemp.ToString()
+        If Num2 = 0 Then
+            If PreBtn = "Ope" Then
+                Dim Num1Text = Num1.ToString() & NumTemp.ToString()
+                Integer.TryParse(Num1Text, Num1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+                txtShowResult.Text = Num1.ToString()
+                Return
+            Else
+                Num2 = NumTemp
+                txtShowResult.Text = Num2.ToString()
+                Return
+            End If
+        End If
+
+        Dim Num2Text = Num2.ToString() & NumTemp.ToString()
+        Integer.TryParse(Num2Text, Num2)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+        txtShowResult.Text = Num2.ToString()
+        Return
+
+        txtShowResult.Text = Num2.ToString()
 
     End Sub
 
