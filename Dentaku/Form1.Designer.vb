@@ -22,7 +22,6 @@ Partial Class Form1
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.txtShowOperator = New System.Windows.Forms.RichTextBox()
         Me.btn7 = New System.Windows.Forms.Button()
         Me.btn8 = New System.Windows.Forms.Button()
         Me.btn9 = New System.Windows.Forms.Button()
@@ -41,19 +40,8 @@ Partial Class Form1
         Me.btnMinus = New System.Windows.Forms.Button()
         Me.btnEqual = New System.Windows.Forms.Button()
         Me.txtShowResult = New System.Windows.Forms.TextBox()
+        Me.txtShowOperator = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
-        '
-        'txtShowOperator
-        '
-        Me.txtShowOperator.Enabled = False
-        Me.txtShowOperator.Font = New System.Drawing.Font("游ゴシック", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtShowOperator.Location = New System.Drawing.Point(25, 29)
-        Me.txtShowOperator.Multiline = False
-        Me.txtShowOperator.Name = "txtShowOperator"
-        Me.txtShowOperator.ReadOnly = True
-        Me.txtShowOperator.Size = New System.Drawing.Size(398, 42)
-        Me.txtShowOperator.TabIndex = 1
-        Me.txtShowOperator.Text = ""
         '
         'btn7
         '
@@ -227,20 +215,33 @@ Partial Class Form1
         '
         'txtShowResult
         '
-        Me.txtShowResult.Font = New System.Drawing.Font("MS UI Gothic", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtShowResult.Location = New System.Drawing.Point(25, 93)
+        Me.txtShowResult.Font = New System.Drawing.Font("游ゴシック", 48.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.txtShowResult.Location = New System.Drawing.Point(25, 76)
         Me.txtShowResult.Multiline = True
         Me.txtShowResult.Name = "txtShowResult"
         Me.txtShowResult.ReadOnly = True
-        Me.txtShowResult.Size = New System.Drawing.Size(398, 60)
-        Me.txtShowResult.TabIndex = 17
+        Me.txtShowResult.Size = New System.Drawing.Size(398, 101)
+        Me.txtShowResult.TabIndex = 20
+        Me.txtShowResult.TabStop = False
         Me.txtShowResult.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtShowOperator
+        '
+        Me.txtShowOperator.Font = New System.Drawing.Font("游ゴシック", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.txtShowOperator.Location = New System.Drawing.Point(374, 12)
+        Me.txtShowOperator.Multiline = True
+        Me.txtShowOperator.Name = "txtShowOperator"
+        Me.txtShowOperator.ReadOnly = True
+        Me.txtShowOperator.Size = New System.Drawing.Size(49, 47)
+        Me.txtShowOperator.TabIndex = 21
+        Me.txtShowOperator.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(448, 449)
+        Me.Controls.Add(Me.txtShowOperator)
         Me.Controls.Add(Me.txtShowResult)
         Me.Controls.Add(Me.btnEqual)
         Me.Controls.Add(Me.btnMinus)
@@ -259,7 +260,6 @@ Partial Class Form1
         Me.Controls.Add(Me.btn9)
         Me.Controls.Add(Me.btn8)
         Me.Controls.Add(Me.btn7)
-        Me.Controls.Add(Me.txtShowOperator)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.Name = "Form1"
@@ -269,7 +269,6 @@ Partial Class Form1
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents txtShowOperator As RichTextBox
     Friend WithEvents btn7 As Button
     Friend WithEvents btn8 As Button
     Friend WithEvents btn9 As Button
@@ -288,4 +287,5 @@ Partial Class Form1
     Friend WithEvents btnMinus As Button
     Friend WithEvents btnEqual As Button
     Friend WithEvents txtShowResult As TextBox
+    Friend WithEvents txtShowOperator As TextBox
 End Class

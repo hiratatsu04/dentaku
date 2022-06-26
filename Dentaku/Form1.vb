@@ -10,6 +10,8 @@
         Dim btnNumber = CType(sender, Button)
         Dim numTemp As Integer
 
+
+
         Select Case btnNumber.Name
             Case "btn0"
                 numTemp = 0
@@ -127,4 +129,5 @@
         Ope = ""
         PreBtn = ""
     End Sub
+
 End Class
