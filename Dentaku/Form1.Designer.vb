@@ -22,7 +22,6 @@ Partial Class Form1
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.txtShowResult = New System.Windows.Forms.RichTextBox()
         Me.txtShowOperator = New System.Windows.Forms.RichTextBox()
         Me.btn7 = New System.Windows.Forms.Button()
         Me.btn8 = New System.Windows.Forms.Button()
@@ -41,19 +40,8 @@ Partial Class Form1
         Me.btnPlus = New System.Windows.Forms.Button()
         Me.btnMinus = New System.Windows.Forms.Button()
         Me.btnEqual = New System.Windows.Forms.Button()
+        Me.txtShowResult = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
-        '
-        'txtShowResult
-        '
-        Me.txtShowResult.Enabled = False
-        Me.txtShowResult.Font = New System.Drawing.Font("游ゴシック", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtShowResult.Location = New System.Drawing.Point(25, 77)
-        Me.txtShowResult.Multiline = False
-        Me.txtShowResult.Name = "txtShowResult"
-        Me.txtShowResult.ReadOnly = True
-        Me.txtShowResult.Size = New System.Drawing.Size(398, 91)
-        Me.txtShowResult.TabIndex = 1
-        Me.txtShowResult.Text = ""
         '
         'txtShowOperator
         '
@@ -65,7 +53,7 @@ Partial Class Form1
         Me.txtShowOperator.ReadOnly = True
         Me.txtShowOperator.Size = New System.Drawing.Size(398, 42)
         Me.txtShowOperator.TabIndex = 1
-        Me.txtShowOperator.Text = "aa"
+        Me.txtShowOperator.Text = ""
         '
         'btn7
         '
@@ -224,7 +212,7 @@ Partial Class Form1
         Me.btnMinus.Name = "btnMinus"
         Me.btnMinus.Size = New System.Drawing.Size(70, 52)
         Me.btnMinus.TabIndex = 15
-        Me.btnMinus.Text = "ー"
+        Me.btnMinus.Text = "－"
         Me.btnMinus.UseVisualStyleBackColor = True
         '
         'btnEqual
@@ -237,11 +225,23 @@ Partial Class Form1
         Me.btnEqual.Text = "＝"
         Me.btnEqual.UseVisualStyleBackColor = True
         '
+        'txtShowResult
+        '
+        Me.txtShowResult.Font = New System.Drawing.Font("MS UI Gothic", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.txtShowResult.Location = New System.Drawing.Point(25, 93)
+        Me.txtShowResult.Multiline = True
+        Me.txtShowResult.Name = "txtShowResult"
+        Me.txtShowResult.ReadOnly = True
+        Me.txtShowResult.Size = New System.Drawing.Size(398, 60)
+        Me.txtShowResult.TabIndex = 17
+        Me.txtShowResult.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(448, 449)
+        Me.Controls.Add(Me.txtShowResult)
         Me.Controls.Add(Me.btnEqual)
         Me.Controls.Add(Me.btnMinus)
         Me.Controls.Add(Me.btnPlus)
@@ -260,17 +260,15 @@ Partial Class Form1
         Me.Controls.Add(Me.btn8)
         Me.Controls.Add(Me.btn7)
         Me.Controls.Add(Me.txtShowOperator)
-        Me.Controls.Add(Me.txtShowResult)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Form1"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents txtShowResult As RichTextBox
     Friend WithEvents txtShowOperator As RichTextBox
     Friend WithEvents btn7 As Button
     Friend WithEvents btn8 As Button
@@ -289,4 +287,5 @@ Partial Class Form1
     Friend WithEvents btnPlus As Button
     Friend WithEvents btnMinus As Button
     Friend WithEvents btnEqual As Button
+    Friend WithEvents txtShowResult As TextBox
 End Class
