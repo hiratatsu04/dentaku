@@ -1,8 +1,7 @@
 ﻿Public Class Form1
 
-    Dim Num1 As Integer = 0
-    Dim Num2 As Integer = 0
-    Dim PreBtn As Integer
+    Dim Num1 As Integer = 0     '演算子入力前の数値
+    Dim Num2 As Integer = 0     '演算子入力後の数値
 
     '演算子の定義（列挙型）
     Private Enum Ope
@@ -13,7 +12,7 @@
         None = 4
     End Enum
 
-    Dim OpeValue As Integer
+    Dim OpeValue As Integer = Ope.None     '演算子を格納する変数。上記の列挙型演算子を代入する
 
     'ボタンタイプの定義（列挙型）
     Private Enum BtnType
@@ -22,6 +21,8 @@
         EqualBtn = 12
         ClearBtn = 13
     End Enum
+
+    Dim PreBtn As Integer = BtnType.ClearBtn    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
 
     Private Sub NumButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
 
@@ -65,9 +66,7 @@
         Return
 
         txtShowResult.Text = Num2.ToString()
-
-        'ボタンタイプに数ボタンをセット
-        PreBtn = BtnType.NumBtn
+        PreBtn = BtnType.NumBtn     'ボタンタイプに数ボタンをセット
 
     End Sub
 
@@ -94,9 +93,7 @@
 
         OpeValue = opeTemp
         txtShowOperator.Text = opeText
-
-        'ボタンタイプに演算子ボタンをセット
-        PreBtn = BtnType.OpeBtn
+        PreBtn = BtnType.OpeBtn 'ボタンタイプに演算子ボタンをセット
 
     End Sub
 
@@ -120,9 +117,7 @@
         Num1 = 0
         Num2 = 0
         OpeValue = Ope.None
-
-        'ボタンタイプにイコールボタンをセット
-        PreBtn = BtnType.EqualBtn
+        PreBtn = BtnType.EqualBtn   'ボタンタイプにイコールボタンをセット
 
     End Sub
 
@@ -132,9 +127,7 @@
         Num1 = 0
         Num2 = 0
         OpeValue = Ope.None
-
-        'ボタンタイプにイコールボタンをセット
-        PreBtn = BtnType.ClearBtn
+        PreBtn = BtnType.ClearBtn   'ボタンタイプにイコールボタンをセット
     End Sub
 
 End Class
