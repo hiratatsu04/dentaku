@@ -8,32 +8,12 @@
     Private Sub NumButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
 
         Dim btnNumber = CType(sender, Button)
+        Dim btnText As String = ""
         Dim numTemp As Integer
 
-
-
-        Select Case btnNumber.Name
-            Case "btn0"
-                numTemp = 0
-            Case "btn1"
-                numTemp = 1
-            Case "btn2"
-                numTemp = 2
-            Case "btn3"
-                numTemp = 3
-            Case "bto4"
-                numTemp = 4
-            Case "btn5"
-                numTemp = 5
-            Case "btn6"
-                numTemp = 6
-            Case "btn7"
-                numTemp = 7
-            Case "btn8"
-                numTemp = 8
-            Case "btn9"
-                numTemp = 9
-        End Select
+        '押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
+        btnText = btnNumber.Name.Remove(0, 3)
+        numTemp = Integer.Parse(btnText)
 
         If Num1 = 0 Then
             Num1 = numTemp

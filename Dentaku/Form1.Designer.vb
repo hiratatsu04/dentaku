@@ -215,24 +215,24 @@ Partial Class Form1
         '
         'txtShowResult
         '
-        Me.txtShowResult.Font = New System.Drawing.Font("游ゴシック", 48.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtShowResult.Location = New System.Drawing.Point(25, 76)
+        Me.txtShowResult.Font = New System.Drawing.Font("游ゴシック", 40.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.txtShowResult.Location = New System.Drawing.Point(25, 86)
         Me.txtShowResult.Multiline = True
         Me.txtShowResult.Name = "txtShowResult"
         Me.txtShowResult.ReadOnly = True
-        Me.txtShowResult.Size = New System.Drawing.Size(398, 101)
+        Me.txtShowResult.Size = New System.Drawing.Size(398, 84)
         Me.txtShowResult.TabIndex = 20
         Me.txtShowResult.TabStop = False
         Me.txtShowResult.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'txtShowOperator
         '
-        Me.txtShowOperator.Font = New System.Drawing.Font("游ゴシック", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.txtShowOperator.Location = New System.Drawing.Point(374, 12)
+        Me.txtShowOperator.Font = New System.Drawing.Font("游ゴシック", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.txtShowOperator.Location = New System.Drawing.Point(374, 34)
         Me.txtShowOperator.Multiline = True
         Me.txtShowOperator.Name = "txtShowOperator"
         Me.txtShowOperator.ReadOnly = True
-        Me.txtShowOperator.Size = New System.Drawing.Size(49, 47)
+        Me.txtShowOperator.Size = New System.Drawing.Size(49, 46)
         Me.txtShowOperator.TabIndex = 21
         Me.txtShowOperator.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
