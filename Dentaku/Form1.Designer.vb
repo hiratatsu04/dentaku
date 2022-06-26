@@ -35,7 +35,7 @@ Partial Class Form1
         Me.btnPeriod = New System.Windows.Forms.Button()
         Me.btnTimes = New System.Windows.Forms.Button()
         Me.btnClear = New System.Windows.Forms.Button()
-        Me.btnDevide = New System.Windows.Forms.Button()
+        Me.btnDivide = New System.Windows.Forms.Button()
         Me.btnPlus = New System.Windows.Forms.Button()
         Me.btnMinus = New System.Windows.Forms.Button()
         Me.btnEqual = New System.Windows.Forms.Button()
@@ -173,15 +173,15 @@ Partial Class Form1
         Me.btnClear.Text = "CA"
         Me.btnClear.UseVisualStyleBackColor = True
         '
-        'btnDevide
+        'btnDivide
         '
-        Me.btnDevide.Font = New System.Drawing.Font("游ゴシック", 19.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.btnDevide.Location = New System.Drawing.Point(353, 257)
-        Me.btnDevide.Name = "btnDevide"
-        Me.btnDevide.Size = New System.Drawing.Size(70, 52)
-        Me.btnDevide.TabIndex = 13
-        Me.btnDevide.Text = "÷"
-        Me.btnDevide.UseVisualStyleBackColor = True
+        Me.btnDivide.Font = New System.Drawing.Font("游ゴシック", 19.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.btnDivide.Location = New System.Drawing.Point(353, 257)
+        Me.btnDivide.Name = "btnDivide"
+        Me.btnDivide.Size = New System.Drawing.Size(70, 52)
+        Me.btnDivide.TabIndex = 13
+        Me.btnDivide.Text = "÷"
+        Me.btnDivide.UseVisualStyleBackColor = True
         '
         'btnPlus
         '
@@ -246,7 +246,7 @@ Partial Class Form1
         Me.Controls.Add(Me.btnEqual)
         Me.Controls.Add(Me.btnMinus)
         Me.Controls.Add(Me.btnPlus)
-        Me.Controls.Add(Me.btnDevide)
+        Me.Controls.Add(Me.btnDivide)
         Me.Controls.Add(Me.btnClear)
         Me.Controls.Add(Me.btnTimes)
         Me.Controls.Add(Me.btnPeriod)
@@ -282,7 +282,7 @@ Partial Class Form1
     Friend WithEvents btnPeriod As Button
     Friend WithEvents btnTimes As Button
     Friend WithEvents btnClear As Button
-    Friend WithEvents btnDevide As Button
+    Friend WithEvents btnDivide As Button
     Friend WithEvents btnPlus As Button
     Friend WithEvents btnMinus As Button
     Friend WithEvents btnEqual As Button

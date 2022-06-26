@@ -2,8 +2,26 @@
 
     Dim Num1 As Integer = 0
     Dim Num2 As Integer = 0
-    Dim Ope As String = ""
-    Dim PreBtn As String
+    Dim PreBtn As Integer
+
+    '演算子の定義（列挙型）
+    Private Enum Ope
+        Plus = 0
+        Minus = 1
+        Times = 2
+        Divide = 3
+        None = 4
+    End Enum
+
+    Dim OpeValue As Integer
+
+    'ボタンタイプの定義（列挙型）
+    Private Enum BtnType
+        NumBtn = 10
+        OpeBtn = 11
+        EqualBtn = 12
+        ClearBtn = 13
+    End Enum
 
     Private Sub NumButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
 
@@ -21,7 +39,7 @@
             Return
         End If
 
-        If Ope = "" Then
+        If OpeValue = Ope.None Then
             Dim num1Text = Num1.ToString() & numTemp.ToString()
             Integer.TryParse(num1Text, Num1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
             txtShowResult.Text = Num1.ToString()
@@ -29,7 +47,7 @@
         End If
 
         If Num2 = 0 Then
-            If PreBtn = "Ope" Then
+            If PreBtn = BtnType.OpeBtn Then
                 Num2 = numTemp
                 txtShowResult.Text = Num2.ToString()
                 Return
@@ -48,32 +66,32 @@
 
         txtShowResult.Text = Num2.ToString()
 
+        'ボタンタイプに数ボタンをセット
+        PreBtn = BtnType.NumBtn
+
     End Sub
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
-
-    Private Sub OpeButton_Click(sender As Object, e As EventArgs) Handles btnTimes.Click, btnDevide.Click, btnPlus.Click, btnMinus.Click
+    Private Sub OpeButton_Click(sender As Object, e As EventArgs) Handles btnTimes.Click, btnDivide.Click, btnPlus.Click, btnMinus.Click
 
         Dim btnOpe = CType(sender, Button)
-        Dim opeTemp As String = ""
+        Dim opeTemp As Integer
 
         Select Case btnOpe.Name
             Case "btnPlus"
-                opeTemp = "+"
+                opeTemp = Ope.Plus
             Case "btnMinus"
-                opeTemp = "-"
+                opeTemp = Ope.Minus
             Case "btnTimes"
-                opeTemp = "*"
-            Case "btnDevide"
-                opeTemp = "/"
+                opeTemp = Ope.Times
+            Case "btnDivide"
+                opeTemp = Ope.Divide
         End Select
 
-        Ope = opeTemp
-        txtShowOperator.Text = Ope
+        OpeValue = opeTemp
+        txtShowOperator.Text = OpeValue
 
-        PreBtn = "Ope"
+        'ボタンタイプに演算子ボタンをセット
+        PreBtn = BtnType.OpeBtn
 
     End Sub
 
@@ -81,14 +99,14 @@
 
         Dim calResult As Double = 0
 
-        Select Case Ope
-            Case "+"
+        Select Case OpeValue
+            Case Ope.Plus
                 calResult = Num1 + Num2
-            Case "-"
+            Case Ope.Minus
                 calResult = Num1 - Num2
-            Case "*"
+            Case Ope.Times
                 calResult = Num1 * Num2
-            Case "/"
+            Case Ope.Divide
                 calResult = Num1 / Num2
         End Select
 
@@ -96,8 +114,10 @@
 
         Num1 = 0
         Num2 = 0
-        Ope = ""
-        PreBtn = "Equal"
+        OpeValue = Ope.None
+
+        'ボタンタイプにイコールボタンをセット
+        PreBtn = BtnType.EqualBtn
 
     End Sub
 
@@ -106,8 +126,10 @@
         txtShowResult.Text = ""
         Num1 = 0
         Num2 = 0
-        Ope = ""
-        PreBtn = ""
+        OpeValue = Ope.None
+
+        'ボタンタイプにイコールボタンをセット
+        PreBtn = BtnType.ClearBtn
     End Sub
 
 End Class
