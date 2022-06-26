@@ -75,20 +75,25 @@
 
         Dim btnOpe = CType(sender, Button)
         Dim opeTemp As Integer
+        Dim opeText As String = ""
 
         Select Case btnOpe.Name
             Case "btnPlus"
                 opeTemp = Ope.Plus
+                opeText = "＋"
             Case "btnMinus"
                 opeTemp = Ope.Minus
+                opeText = "－"
             Case "btnTimes"
                 opeTemp = Ope.Times
+                opeText = "×"
             Case "btnDivide"
                 opeTemp = Ope.Divide
+                opeText = "÷"
         End Select
 
         OpeValue = opeTemp
-        txtShowOperator.Text = OpeValue
+        txtShowOperator.Text = opeText
 
         'ボタンタイプに演算子ボタンをセット
         PreBtn = BtnType.OpeBtn
