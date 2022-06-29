@@ -25,7 +25,7 @@
     Dim previousButton As Integer = ButtonType.ClearButton    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
 
     '数ボタンが押された時の動作
-    Private Sub NumButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
+    Private Sub NumberButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
 
         Dim buttonNumber = CType(sender, Button)   'senderをボタン型に変更
         Dim buttonText As String = ""      'ボタンの[NAME]を格納する変数
@@ -72,7 +72,7 @@
     End Sub
 
     '演算子ボタンが押された時の動作
-    Private Sub OpeButton_Click(sender As Object, e As EventArgs) Handles btnTimes.Click, btnDivide.Click, btnPlus.Click, btnMinus.Click
+    Private Sub OperatorButtonClick(sender As Object, e As EventArgs) Handles btnTimes.Click, btnDivide.Click, btnPlus.Click, btnMinus.Click
 
         Dim buttonOperator = CType(sender, Button)  'senderをボタン型に変更
         Dim operatorTemporary As Integer      '演算子ボタンの種類を格納する変数
@@ -100,7 +100,7 @@
     End Sub
 
     'イコールボタンの動作
-    Private Sub BtnEqual_Click(sender As Object, e As EventArgs) Handles btnEqual.Click
+    Private Sub EqualButtonClick(sender As Object, e As EventArgs) Handles btnEqual.Click
 
         Dim calculateResult As Double = 0
 
@@ -127,7 +127,7 @@
     End Sub
 
     'クリアボタンの動作。全て表示、変数をリセット
-    Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+    Private Sub ClearButtonClick(sender As Object, e As EventArgs) Handles btnClear.Click
         txtShowOperator.Text = ""
         txtShowResult.Text = ""
         number1 = 0
