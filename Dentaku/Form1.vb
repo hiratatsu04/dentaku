@@ -45,7 +45,13 @@
         '演算子が格納されているか判別。入っていなければNum1にnumTempを加えてプロシージャを抜ける
         If OpeValue = Ope.None Then
             Dim num1Text = Num1.ToString() & numTemp.ToString()
-            Integer.TryParse(num1Text, Num1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+
+            If Integer.TryParse(num1Text, Num1) Then
+                'Num1にnum1Textが入る
+            Else
+                MessageBox.Show("Num1に数値以外が代入されました。")
+            End If
+
             txtShowResult.Text = Num1.ToString()
             Return
         End If
@@ -58,14 +64,26 @@
                 Return
             Else
                 Dim nNum1Text = Num1.ToString() & numTemp.ToString()
-                Integer.TryParse(nNum1Text, Num1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+
+                If Integer.TryParse(nNum1Text, Num1) Then
+                    'Num1にnum1Textが入る
+                Else
+                    MessageBox.Show("Num1に数値以外が代入されました。")
+                End If
+
                 txtShowResult.Text = Num1.ToString()
                 Return
             End If
         End If
 
         Dim num2Text = Num2.ToString() & numTemp.ToString()
-        Integer.TryParse(num2Text, Num2)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+
+        If Integer.TryParse(num2Text, Num2) Then
+            'Num2にnum2Textが入る
+        Else
+            MessageBox.Show("Num2に数値以外が代入されました。")
+        End If
+
         txtShowResult.Text = Num2.ToString()
         PreBtn = BtnType.NumBtn     'ボタンタイプに数ボタンをセット
 
