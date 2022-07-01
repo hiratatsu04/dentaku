@@ -104,17 +104,7 @@
 
         Dim calResult As Double = 0
 
-        '演算子ボタンの種類に応じて計算する
-        Select Case OpeValue
-            Case Ope.Plus
-                calResult = Num1 + Num2
-            Case Ope.Minus
-                calResult = Num1 - Num2
-            Case Ope.Times
-                calResult = Num1 * Num2
-            Case Ope.Divide
-                calResult = Num1 / Num2
-        End Select
+        calResult = Calculate()
 
         txtShowResult.Text = calResult.ToString()
 
