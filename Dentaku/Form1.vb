@@ -25,7 +25,7 @@
     Dim PreBtn As Integer = BtnType.ClearBtn    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
 
     '数ボタンが押された時の動作
-    Private Sub NumButtonClick(sender As Object, e As EventArgs) Handles btnx.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
+    Private Sub NumButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
 
         Dim btnNumber = CType(sender, Button)   'senderをボタン型に変更
         Dim btnText As String = ""      'ボタンの[NAME]を格納する変数
@@ -33,7 +33,14 @@
 
         '押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
         btnText = btnNumber.Name.Remove(0, 3)
-        numTemp = Integer.Parse(btnText)
+        If Integer.TryParse(btnText, numTemp) Then
+            'numTempにボタンのテキストが入る
+        Else
+            MessageBox.Show("ボタンフォームに数値以外の値が入っています")
+            Return
+        End If
+
+        'numTemp = Integer.Parse(btnText)
 
         'Num1に数字が入っているか判別。入っていなければ、numTempを入れてプロシージャを抜ける
         If Num1 = 0 Then
