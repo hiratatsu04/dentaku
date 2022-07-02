@@ -1,10 +1,10 @@
 ﻿Public Class Form1
 
-    Dim Num1 As Integer = 0     '演算子入力前の数値
-    Dim Num2 As Integer = 0     '演算子入力後の数値
+    Dim number1 As Integer = 0     '演算子入力前の数値
+    Dim number2 As Integer = 0     '演算子入力後の数値
 
     '演算子の定義（列挙型）
-    Private Enum Ope
+    Private Enum OperatorType
         Plus = 0
         Minus = 1
         Times = 2
@@ -12,135 +12,133 @@
         None = 4
     End Enum
 
-    Dim OpeValue As Integer = Ope.None     '演算子を格納する変数。上記の列挙型演算子を代入する
+    Dim operatorValue As Integer = OperatorType.None     '演算子を格納する変数。上記の列挙型演算子を代入する
 
     'ボタンタイプの定義（列挙型）
-    Private Enum BtnType
-        NumBtn = 10
-        OpeBtn = 11
-        EqualBtn = 12
-        ClearBtn = 13
+    Private Enum ButtonType
+        NumberButton = 10
+        OperatorButton = 11
+        EqualButton = 12
+        ClearButton = 13
     End Enum
 
-    Dim PreBtn As Integer = BtnType.ClearBtn    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
+    Dim previousButton As Integer = ButtonType.ClearButton    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
 
     '数ボタンが押された時の動作
-    Private Sub NumButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
+    Private Sub NumberButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
 
-        Dim btnNumber = CType(sender, Button)   'senderをボタン型に変更
-        Dim btnText As String = ""      'ボタンの[NAME]を格納する変数
-        Dim numTemp As Integer      '押されたボタンを一時的に格納するローカル変数
+        Dim buttonNumber = CType(sender, Button)   'senderをボタン型に変更
+        Dim buttonText As String = ""      'ボタンの[NAME]を格納する変数
+        Dim numberTemporary As Integer      '押されたボタンを一時的に格納するローカル変数
 
         '押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
-        btnText = btnNumber.Name.Remove(0, 3)
-        If Integer.TryParse(btnText, numTemp) Then
+        buttonText = buttonNumber.Name.Remove(0, 3)
+        If Integer.TryParse(buttonText, numberTemporary) Then
             'numTempにボタンのテキストが入る
         Else
             MessageBox.Show("ボタンフォームに数値以外の値が入っています")
             Return
         End If
 
-        'numTemp = Integer.Parse(btnText)
-
-        'Num1に数字が入っているか判別。入っていなければ、numTempを入れてプロシージャを抜ける
-        If Num1 = 0 Then
-            Num1 = numTemp
-            txtShowResult.Text = Num1.ToString()
+        'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
+        If number1 = 0 Then
+            number1 = numberTemporary
+            txtShowResult.Text = number1.ToString()
             Return
         End If
 
-        '演算子が格納されているか判別。入っていなければNum1にnumTempを加えてプロシージャを抜ける
-        If OpeValue = Ope.None Then
-            Dim num1Text = Num1.ToString() & numTemp.ToString()
-            Integer.TryParse(num1Text, Num1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
-            txtShowResult.Text = Num1.ToString()
+        '演算子が格納されているか判別。入っていなければNumber1にnumberTemporaryを加えてプロシージャを抜ける
+        If operatorValue = OperatorType.None Then
+            Dim number1Text = number1.ToString() & numberTemporary.ToString()
+            Integer.TryParse(number1Text, number1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+            txtShowResult.Text = number1.ToString()
             Return
         End If
 
-        'Num2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Num2にnumTempを入れる。演算子ボタン以外であればNum1にnumTempを加える。
-        If Num2 = 0 Then
-            If PreBtn = BtnType.OpeBtn Then
-                Num2 = numTemp
-                txtShowResult.Text = Num2.ToString()
+        'Number2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Number2にnumberTemporaryを入れる。演算子ボタン以外であればNumber1にnumberTemporaryを加える。
+        If number2 = 0 Then
+            If previousButton = ButtonType.OperatorButton Then
+                number2 = numberTemporary
+                txtShowResult.Text = number2.ToString()
                 Return
             Else
-                Dim nNum1Text = Num1.ToString() & numTemp.ToString()
-                Integer.TryParse(nNum1Text, Num1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
-                txtShowResult.Text = Num1.ToString()
+                Dim nNumber1Text = number1.ToString() & numberTemporary.ToString()
+                Integer.TryParse(nNumber1Text, number1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+                txtShowResult.Text = number1.ToString()
                 Return
             End If
         End If
 
-        Dim num2Text = Num2.ToString() & numTemp.ToString()
-        Integer.TryParse(num2Text, Num2)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
-        txtShowResult.Text = Num2.ToString()
-        PreBtn = BtnType.NumBtn     'ボタンタイプに数ボタンをセット
+        Dim number2Text = number2.ToString() & numberTemporary.ToString()
+        Integer.TryParse(number2Text, number2)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+        txtShowResult.Text = number2.ToString()
+        previousButton = ButtonType.NumberButton     'ボタンタイプに数ボタンをセット
 
     End Sub
 
     '演算子ボタンが押された時の動作
-    Private Sub OpeButton_Click(sender As Object, e As EventArgs) Handles btnTimes.Click, btnDivide.Click, btnPlus.Click, btnMinus.Click
+    Private Sub OperatorButtonClick(sender As Object, e As EventArgs) Handles btnTimes.Click, btnDivide.Click, btnPlus.Click, btnMinus.Click
 
-        Dim btnOpe = CType(sender, Button)  'senderをボタン型に変更
-        Dim opeTemp As Integer      '演算子ボタンの種類を格納する変数
-        Dim opeText As String = ""      '演算子テキストボックスに表示する文字
+        Dim buttonOperator = CType(sender, Button)  'senderをボタン型に変更
+        Dim operatorTemporary As Integer      '演算子ボタンの種類を格納する変数
+        Dim operatorText As String = ""      '演算子テキストボックスに表示する文字
 
-        Select Case btnOpe.Name
+        Select Case buttonOperator.Name
             Case "btnPlus"
-                opeTemp = Ope.Plus
-                opeText = "＋"
+                operatorTemporary = OperatorType.Plus
+                operatorText = "＋"
             Case "btnMinus"
-                opeTemp = Ope.Minus
-                opeText = "－"
+                operatorTemporary = OperatorType.Minus
+                operatorText = "－"
             Case "btnTimes"
-                opeTemp = Ope.Times
-                opeText = "×"
+                operatorTemporary = OperatorType.Times
+                operatorText = "×"
             Case "btnDivide"
-                opeTemp = Ope.Divide
-                opeText = "÷"
+                operatorTemporary = OperatorType.Divide
+                operatorText = "÷"
         End Select
 
-        OpeValue = opeTemp
-        txtShowOperator.Text = opeText
-        PreBtn = BtnType.OpeBtn 'ボタンタイプに演算子ボタンをセット
+        operatorValue = operatorTemporary
+        txtShowOperator.Text = operatorText
+        previousButton = ButtonType.OperatorButton 'ボタンタイプに演算子ボタンをセット
 
     End Sub
 
     'イコールボタンの動作
-    Private Sub BtnEqual_Click(sender As Object, e As EventArgs) Handles btnEqual.Click
+    Private Sub EqualButtonClick(sender As Object, e As EventArgs) Handles btnEqual.Click
 
-        Dim calResult As Double = 0
+        Dim calculateResult As Double = 0
 
         '演算子ボタンの種類に応じて計算する
-        Select Case OpeValue
-            Case Ope.Plus
-                calResult = Num1 + Num2
-            Case Ope.Minus
-                calResult = Num1 - Num2
-            Case Ope.Times
-                calResult = Num1 * Num2
-            Case Ope.Divide
-                calResult = Num1 / Num2
+        Select Case operatorValue
+            Case OperatorType.Plus
+                calculateResult = number1 + number2
+            Case OperatorType.Minus
+                calculateResult = number1 - number2
+            Case OperatorType.Times
+                calculateResult = number1 * number2
+            Case OperatorType.Divide
+                calculateResult = number1 / number2
         End Select
 
-        txtShowResult.Text = calResult.ToString()
+        txtShowResult.Text = calculateResult.ToString()
 
         '全ての変数、演算子タイプをリセット
-        Num1 = 0
-        Num2 = 0
-        OpeValue = Ope.None
-        PreBtn = BtnType.EqualBtn   'ボタンタイプにイコールボタンをセット
+        number1 = 0
+        number2 = 0
+        operatorValue = OperatorType.None
+        previousButton = ButtonType.EqualButton   'ボタンタイプにイコールボタンをセット
 
     End Sub
 
     'クリアボタンの動作。全て表示、変数をリセット
-    Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+    Private Sub ClearButtonClick(sender As Object, e As EventArgs) Handles btnClear.Click
         txtShowOperator.Text = ""
         txtShowResult.Text = ""
-        Num1 = 0
-        Num2 = 0
-        OpeValue = Ope.None
-        PreBtn = BtnType.ClearBtn   'ボタンタイプにイコールボタンをセット
+        number1 = 0
+        number2 = 0
+        operatorValue = OperatorType.None
+        previousButton = ButtonType.ClearButton   'ボタンタイプにイコールボタンをセット
     End Sub
 
 End Class
