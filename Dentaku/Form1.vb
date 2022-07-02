@@ -16,10 +16,10 @@
 
     Dim operatorText As New Dictionary(Of OperatorType, String)() From
         {
-        {0, "＋"},
-        {1, "－"},
-        {2, "×"},
-        {3, "÷"}
+        {OperatorType.Plus, "＋"},
+        {OperatorType.Minus, "－"},
+        {OperatorType.Times, "×"},
+        {OperatorType.Divide, "÷"}
         }
 
     'ボタンタイプの定義（列挙型）
