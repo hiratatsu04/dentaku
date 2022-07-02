@@ -33,11 +33,15 @@
 
         '押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
         buttonText = buttonNumber.Name.Remove(0, 3)
-        If Integer.TryParse(buttonText, numberTemporary) Then
-            'numTempにボタンのテキストが入る
-        Else
+        'If Integer.TryParse(buttonText, numberTemporary) Then
+        '    'numTempにボタンのテキストが入る
+        'Else
+        '    MessageBox.Show("ボタンフォームに数値以外の値が入っています")
+        '    Return
+        'End If
+
+        If Not Integer.TryParse(buttonText, numberTemporary) Then
             MessageBox.Show("ボタンフォームに数値以外の値が入っています")
-            Return
         End If
 
         'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
