@@ -51,13 +51,17 @@
             Return
         End If
 
-        '演算子が格納されているか判別。入っていなければNumber1にnumberTemporaryを加えてプロシージャを抜ける
+        '演算子が格納されているか判別。入っていなければNum1にnumTempを加えてプロシージャを抜ける
         If operatorValue = OperatorType.None Then
             Dim number1Text = number1.ToString() & numberTemporary.ToString()
-            Integer.TryParse(number1Text, number1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
-            txtShowResult.Text = number1.ToString()
-            Return
-        End If
+
+            If Integer.TryParse(number1Text, number1) Then
+                'Num1にnum1Textが入る
+            Else
+                MessageBox.Show("Num1に数値以外が代入されました。")
+            End If
+
+            txtShowResult.Text = Num1.ToString()
 
         'Number2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Number2にnumberTemporaryを入れる。演算子ボタン以外であればNumber1にnumberTemporaryを加える。
         If number2 = 0 Then
@@ -67,14 +71,26 @@
                 Return
             Else
                 Dim nNumber1Text = number1.ToString() & numberTemporary.ToString()
-                Integer.TryParse(nNumber1Text, number1)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+
+                If Integer.TryParse(nNumber1Text, number1) Then
+                    'Num1にnum1Textが入る
+                Else
+                    MessageBox.Show("Num1に数値以外が代入されました。")
+                End If
+
                 txtShowResult.Text = number1.ToString()
                 Return
             End If
         End If
 
         Dim number2Text = number2.ToString() & numberTemporary.ToString()
-        Integer.TryParse(number2Text, number2)    '文字列に変換後に足した後に数値に戻しているがこの動作不要？
+
+        If Integer.TryParse(number2Text, number2) Then
+            'Num2にnum2Textが入る
+        Else
+            MessageBox.Show("Num2に数値以外が代入されました。")
+        End If
+
         txtShowResult.Text = number2.ToString()
         previousButton = ButtonType.NumberButton     'ボタンタイプに数ボタンをセット
 
