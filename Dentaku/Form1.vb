@@ -92,25 +92,20 @@
 
         Dim buttonOperator = CType(sender, Button)  'senderをボタン型に変更
         Dim operatorTemporary As Integer      '演算子ボタンの種類を格納する変数
-        Dim operatorText As String = ""      '演算子テキストボックスに表示する文字
 
         Select Case buttonOperator.Name
             Case "btnPlus"
                 operatorTemporary = OperatorType.Plus
-                operatorText = "＋"
             Case "btnMinus"
                 operatorTemporary = OperatorType.Minus
-                operatorText = "－"
             Case "btnTimes"
                 operatorTemporary = OperatorType.Times
-                operatorText = "×"
             Case "btnDivide"
                 operatorTemporary = OperatorType.Divide
-                operatorText = "÷"
         End Select
 
         operatorValue = operatorTemporary
-        txtShowOperator.Text = operatorText
+        txtShowOperator.Text = operatorText(operatorTemporary)
         previousButton = ButtonType.OperatorButton 'ボタンタイプに演算子ボタンをセット
 
     End Sub
