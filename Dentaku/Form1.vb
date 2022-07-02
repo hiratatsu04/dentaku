@@ -12,7 +12,7 @@
         None = 4
     End Enum
 
-    Dim operatorValue As Integer = OperatorType.None     '演算子を格納する変数。上記の列挙型演算子を代入する
+    Dim operatorValue As OperatorType = OperatorType.None     '演算子を格納する変数。上記の列挙型演算子を代入する
 
     'ボタンタイプの定義（列挙型）
     Private Enum ButtonType
@@ -104,7 +104,7 @@
 
         Dim calculateResult As Double = 0
 
-        calResult = Calculate()
+        calculateResult = Calculate(number1, number2, operatorValue)
 
         txtShowResult.Text = calculateResult.ToString()
 
@@ -126,7 +126,7 @@
         previousButton = ButtonType.ClearButton   'ボタンタイプにイコールボタンをセット
     End Sub
 
-    Private Function Calculate() As Double
+    Private Function Calculate(number1 As Integer, number2 As Integer, operatorValue As OperatorType) As Double
 
         Dim calculateResult As Double = 0
 
@@ -142,7 +142,7 @@
                 calculateResult = number1 / number2
         End Select
 
-        Return calResult
+        Return calculateResult
 
     End Function
 
