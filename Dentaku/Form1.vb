@@ -14,6 +14,14 @@
 
     Dim operatorValue As OperatorType = OperatorType.None     '演算子を格納する変数。上記の列挙型演算子を代入する
 
+    Dim operatorText As New Dictionary(Of OperatorType, String)() From
+        {
+        {0, "＋"},
+        {1, "－"},
+        {2, "×"},
+        {3, "÷"}
+        }
+
     'ボタンタイプの定義（列挙型）
     Private Enum ButtonType
         NumberButton = 10
