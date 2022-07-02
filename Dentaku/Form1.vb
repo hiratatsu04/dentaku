@@ -110,17 +110,8 @@
     'イコールボタンの動作
     Private Sub EqualButtonClick(sender As Object, e As EventArgs) Handles btnEqual.Click
 
-        Dim calculateResult As Double = 0
-
-        calculateResult = Calculate(number1, number2, operatorValue)
-
-        txtShowResult.Text = calculateResult.ToString()
-
-        '全ての変数、演算子タイプをリセット
-        number1 = 0
-        number2 = 0
-        operatorValue = OperatorType.None
-        previousButton = ButtonType.EqualButton   'ボタンタイプにイコールボタンをセット
+        Dim result = Equal()
+        txtShowResult.Text = result.ToString()
 
     End Sub
 
@@ -133,6 +124,18 @@
         operatorValue = OperatorType.None
         previousButton = ButtonType.ClearButton   'ボタンタイプにイコールボタンをセット
     End Sub
+
+    Private Function Equal() As Double
+        Dim calculateResult = Calculate(number1, number2, operatorValue)
+
+        '全ての変数、演算子タイプをリセット
+        number1 = 0
+        number2 = 0
+        operatorValue = OperatorType.None
+        previousButton = ButtonType.EqualButton   'ボタンタイプにイコールボタンをセット
+
+        Return calculateResult
+    End Function
 
     Private Function Calculate(number1 As Integer, number2 As Integer, operatorValue As OperatorType) As Double
 
