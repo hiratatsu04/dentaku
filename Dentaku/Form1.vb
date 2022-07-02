@@ -31,9 +31,11 @@
         Dim buttonText As String = ""      'ボタンの[NAME]を格納する変数
         Dim numberTemporary As Integer      '押されたボタンを一時的に格納するローカル変数
 
-        '押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numberTemporaryに代入
+        '押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
         buttonText = buttonNumber.Name.Remove(0, 3)
-        numberTemporary = Integer.Parse(buttonText)
+        If Not Integer.TryParse(buttonText, numberTemporary) Then
+            MessageBox.Show("ボタンフォームに数値以外の値が入っています")
+        End If
 
         'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
         If number1 = 0 Then
@@ -42,17 +44,15 @@
             Return
         End If
 
-        '演算子が格納されているか判別。入っていなければNum1にnumTempを加えてプロシージャを抜ける
+        '演算子が格納されているか判別。入っていなければNumber1にnumberTemporaryを加えてプロシージャを抜ける
         If operatorValue = OperatorType.None Then
             Dim number1Text = number1.ToString() & numberTemporary.ToString()
-
-            If Integer.TryParse(number1Text, number1) Then
-                'Num1にnum1Textが入る
-            Else
+            If Not Integer.TryParse(number1Text, number1) Then
                 MessageBox.Show("Num1に数値以外が代入されました。")
             End If
-
-            txtShowResult.Text = Num1.ToString()
+            txtShowResult.Text = number1.ToString()
+            Return
+        End If
 
         'Number2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Number2にnumberTemporaryを入れる。演算子ボタン以外であればNumber1にnumberTemporaryを加える。
         If number2 = 0 Then
@@ -62,26 +62,18 @@
                 Return
             Else
                 Dim nNumber1Text = number1.ToString() & numberTemporary.ToString()
-
-                If Integer.TryParse(nNumber1Text, number1) Then
-                    'Num1にnum1Textが入る
-                Else
+                If Not Integer.TryParse(nNumber1Text, number1) Then
                     MessageBox.Show("Num1に数値以外が代入されました。")
                 End If
-
                 txtShowResult.Text = number1.ToString()
                 Return
             End If
         End If
 
         Dim number2Text = number2.ToString() & numberTemporary.ToString()
-
-        If Integer.TryParse(number2Text, number2) Then
-            'Num2にnum2Textが入る
-        Else
+        If Not Integer.TryParse(number2Text, number2) Then
             MessageBox.Show("Num2に数値以外が代入されました。")
         End If
-
         txtShowResult.Text = number2.ToString()
         previousButton = ButtonType.NumberButton     'ボタンタイプに数ボタンをセット
 
