@@ -14,7 +14,7 @@
 
     Dim operatorValue As OperatorType = OperatorType.None     '演算子を格納する変数。上記の列挙型演算子を代入する
 
-    Dim operatorTextDictionary As New Dictionary(Of OperatorType, String)() From
+    Dim operatorTexts As New Dictionary(Of OperatorType, String)() From
         {
         {OperatorType.Plus, "＋"},
         {OperatorType.Minus, "－"},
@@ -105,7 +105,7 @@
         End Select
 
         operatorValue = operatorTemporary
-        txtShowOperator.Text = operatorTextDictionary(operatorTemporary)
+        txtShowOperator.Text = operatorTexts(operatorTemporary)
         previousButton = ButtonType.OperatorButton 'ボタンタイプに演算子ボタンをセット
 
     End Sub
