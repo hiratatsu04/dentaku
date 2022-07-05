@@ -90,23 +90,9 @@
     '演算子ボタンが押された時の動作
     Private Sub OperatorButtonClick(sender As Object, e As EventArgs) Handles btnTimes.Click, btnDivide.Click, btnPlus.Click, btnMinus.Click
 
-        Dim buttonOperator = CType(sender, Button)  'senderをボタン型に変更
-        Dim operatorTemporary As OperatorType      '演算子ボタンの種類を格納する変数
+        Dim operatorTemporary As OperatorType = OperatorAct(sender)
 
-        Select Case buttonOperator.Name
-            Case "btnPlus"
-                operatorTemporary = OperatorType.Plus
-            Case "btnMinus"
-                operatorTemporary = OperatorType.Minus
-            Case "btnTimes"
-                operatorTemporary = OperatorType.Times
-            Case "btnDivide"
-                operatorTemporary = OperatorType.Divide
-        End Select
-
-        operatorValue = operatorTemporary
         txtShowOperator.Text = operatorTexts(operatorTemporary)
-        previousButton = ButtonType.OperatorButton 'ボタンタイプに演算子ボタンをセット
 
     End Sub
 
@@ -127,6 +113,30 @@
         operatorValue = OperatorType.None
         previousButton = ButtonType.ClearButton   'ボタンタイプにイコールボタンをセット
     End Sub
+
+    ' 演算子ボタンを押されたときに動作を関数化
+    Private Function OperatorAct(sender As Object) As OperatorType
+
+        Dim buttonOperator = CType(sender, Button)  'senderをボタン型に変更
+        Dim operatorTemporary As OperatorType      '演算子ボタンの種類を格納する変数
+
+        Select Case buttonOperator.Name
+            Case "btnPlus"
+                operatorTemporary = OperatorType.Plus
+            Case "btnMinus"
+                operatorTemporary = OperatorType.Minus
+            Case "btnTimes"
+                operatorTemporary = OperatorType.Times
+            Case "btnDivide"
+                operatorTemporary = OperatorType.Divide
+        End Select
+
+        previousButton = ButtonType.OperatorButton 'ボタンタイプに演算子ボタンをセット
+        operatorValue = operatorTemporary
+
+        Return (operatorTemporary)
+
+    End Function
 
     Private Function Equal() As Double
         Dim calculateResult = Calculate(number1, number2, operatorValue)
