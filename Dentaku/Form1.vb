@@ -91,7 +91,7 @@
     Private Sub OperatorButtonClick(sender As Object, e As EventArgs) Handles btnTimes.Click, btnDivide.Click, btnPlus.Click, btnMinus.Click
 
         Dim buttonOperator = CType(sender, Button)  'senderをボタン型に変更
-        Dim operatorTemporary As Integer      '演算子ボタンの種類を格納する変数
+        Dim operatorTemporary As OperatorType      '演算子ボタンの種類を格納する変数
 
         Select Case buttonOperator.Name
             Case "btnPlus"
