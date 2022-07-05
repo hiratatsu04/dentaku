@@ -22,7 +22,7 @@
         ClearButton = 13
     End Enum
 
-    Dim previousButton As Integer = ButtonType.ClearButton    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
+    Dim previousButton As ButtonType = ButtonType.ClearButton    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
 
     '数ボタンが押された時の動作
     Private Sub NumberButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
