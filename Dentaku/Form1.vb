@@ -99,7 +99,7 @@
     'イコールボタンの動作
     Private Sub EqualButtonClick(sender As Object, e As EventArgs) Handles btnEqual.Click
 
-        Dim result = Equal()
+        Dim result = EqualAct()
         txtShowResult.Text = result.ToString()
 
     End Sub
@@ -138,7 +138,7 @@
 
     End Function
 
-    Private Function Equal() As Double
+    Private Function EqualAct() As Double
         Dim calculateResult = Calculate(number1, number2, operatorValue)
 
         '全ての変数、演算子タイプをリセット
