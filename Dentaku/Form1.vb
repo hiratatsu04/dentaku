@@ -100,14 +100,25 @@
     Private Sub EqualButtonClick(sender As Object, e As EventArgs) Handles btnEqual.Click
 
         Dim result = EqualAct()
+
         txtShowResult.Text = result.ToString()
 
     End Sub
 
     'クリアボタンの動作。全て表示、変数をリセット
     Private Sub ClearButtonClick(sender As Object, e As EventArgs) Handles btnClear.Click
+
+        Dim operatorValue As OperatorType
+        Dim previousButton As ButtonType
+
+        ClearAct(number1, number2, operatorValue, previousButton)
+
         txtShowOperator.Text = ""
         txtShowResult.Text = ""
+
+    End Sub
+
+    Private Sub ClearAct(ByRef number1 As Integer, ByRef number2 As Integer, ByRef operatorValue As OperatorType, ByRef previousButton As ButtonType)
         number1 = 0
         number2 = 0
         operatorValue = OperatorType.None
