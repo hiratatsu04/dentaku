@@ -38,7 +38,7 @@
         Dim message As String = ""
         Dim number As Integer
 
-        ButtonAct(sender, number1, number2, number, message, previousButton)
+        NumberAct(sender, number1, number2, number, message, previousButton)
 
         txtShowResult.Text = number.ToString()
         If Not message = Nothing Then
@@ -77,7 +77,8 @@
 
     End Sub
 
-    Private Sub ButtonAct(sender As Object, ByRef number1 As Integer, ByRef number2 As Integer, ByRef number As Integer, ByRef message As String, ByRef previousButton As ButtonType)
+    ' 数ボタンが押された時に動作するメソッド
+    Private Sub NumberAct(sender As Object, ByRef number1 As Integer, ByRef number2 As Integer, ByRef number As Integer, ByRef message As String, ByRef previousButton As ButtonType)
 
         Dim numberTemporary As Integer      '押されたボタンを一時的に格納するローカル変数
 
@@ -131,6 +132,7 @@
 
     End Sub
 
+    ' クリアボタンが押された時に動作するメソッド
     Private Sub ClearAct(ByRef number1 As Integer, ByRef number2 As Integer, ByRef operatorValue As OperatorType, ByRef previousButton As ButtonType)
         number1 = 0
         number2 = 0
@@ -138,7 +140,7 @@
         previousButton = ButtonType.ClearButton   'ボタンタイプにイコールボタンをセット
     End Sub
 
-    ' 演算子ボタンを押されたときに動作を関数化
+    ' 演算子ボタンが押されたときに動作する関数
     Private Function OperatorAct(sender As Object) As OperatorType
 
         Dim buttonOperator = CType(sender, Button)  'senderをボタン型に変更
@@ -162,6 +164,7 @@
 
     End Function
 
+    ' イコールボタンが押されたときに動作する関数
     Private Function EqualAct() As Double
         Dim calculateResult = Calculate(number1, number2, operatorValue)
 
@@ -174,6 +177,7 @@
         Return calculateResult
     End Function
 
+    ' 演算子に応じてnumber1とnumber2を使って計算を実行する関数
     Private Function Calculate(number1 As Integer, number2 As Integer, operatorValue As OperatorType) As Double
 
         Dim calculateResult As Double = 0
