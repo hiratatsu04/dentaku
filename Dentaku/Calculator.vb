@@ -1,12 +1,12 @@
 ﻿Public Class Calculator
 
-    Public number1 As Integer = 0     '演算子入力前の数値
-    Public number2 As Integer = 0     '演算子入力後の数値
-    Dim operatorValue As OperatorType = OperatorType.None     '演算子を格納する変数。上記の列挙型演算子を代入する
-    Dim previousButton As OperationType = OperationType.ClearButton    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
+    Private number1 As Integer = 0     '演算子入力前の数値
+    Private number2 As Integer = 0     '演算子入力後の数値
+    Private operatorValue As OperatorType = OperatorType.None     '演算子を格納する変数。上記の列挙型演算子を代入する
+    Private previousOperation As OperationType = OperationType.ClearButton    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
 
     ' 数ボタンが押された時に動作するメソッド
-    Public Function NumberAct(numberTemporary As Integer, ByRef previousButton As OperationType) As Double
+    Public Function NumberAct(numberTemporary As Integer) As Double
 
         'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
         If number1 = 0 Then
@@ -25,7 +25,7 @@
 
         'Number2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Number2にnumberTemporaryを入れる。演算子ボタン以外であればNumber1にnumberTemporaryを加える。
         If number2 = 0 Then
-            If previousButton = OperationType.OperatorButton Then
+            If previousOperation = OperationType.OperatorButton Then
                 number2 = numberTemporary
                 Return number2
             Else
@@ -47,17 +47,17 @@
     End Function
 
     ' クリアボタンが押された時に動作するメソッド
-    Public Sub ClearAct(ByRef operatorValue As OperatorType, ByRef previousButton As OperationType)
+    Public Sub ClearAct()
         number1 = 0
         number2 = 0
         operatorValue = OperatorType.None
-        previousButton = OperationType.ClearButton   'ボタンタイプにイコールボタンをセット
+        previousOperation = OperationType.ClearButton   'ボタンタイプにイコールボタンをセット
     End Sub
 
     ' 演算子ボタンが押されたときに動作する関数
     Public Sub OperatorAct(operatorTemporary As OperatorType)
 
-        previousButton = OperationType.OperatorButton 'ボタンタイプに演算子ボタンをセット
+        previousOperation = OperationType.OperatorButton 'ボタンタイプに演算子ボタンをセット
         operatorValue = operatorTemporary
 
     End Sub
@@ -71,7 +71,7 @@
         number1 = 0
         number2 = 0
         operatorValue = OperatorType.None
-        previousButton = OperationType.EqualButton   'ボタンタイプにイコールボタンをセット
+        previousOperation = OperationType.EqualButton   'ボタンタイプにイコールボタンをセット
 
         Return calculateResult
     End Function
