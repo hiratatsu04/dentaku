@@ -1,8 +1,9 @@
 ﻿Public Class Form1
 
-    ' インスタンスの生成
+    ' 計算クラスのインスタンス生成
     Dim calculatorObject As New Calculator
 
+    ' OperationTypeをキーに、表示する演算子文字列のディクショナリを定義
     Dim operatorTexts As New Dictionary(Of OperatorType, String)() From
         {
         {OperatorType.Plus, "＋"},
@@ -12,7 +13,7 @@
         }
 
     '数ボタンが押された時の動作
-    Private Sub NumberButtonClick(sender As Object, e As EventArgs) Handles btnx.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
+    Private Sub NumberButtonClick(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
 
         Dim numberTemporary As Integer      '押されたボタンを一時的に格納するローカル変数
 
@@ -25,10 +26,8 @@
         End If
 
         Try
-
             Dim number = calculatorObject.NumberAct(numberTemporary)
             txtShowResult.Text = number.ToString()
-
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try

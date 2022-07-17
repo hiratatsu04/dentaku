@@ -1,9 +1,9 @@
 ﻿Public Class Calculator
 
-    Private number1 As Integer = 0     '演算子入力前の数値
-    Private number2 As Integer = 0     '演算子入力後の数値
-    Private operatorValue As OperatorType = OperatorType.None     '演算子を格納する変数。上記の列挙型演算子を代入する
-    Private previousOperation As OperationType = OperationType.ClearButton    '一つ前に押されたボタンを格納する。上記の列挙型演算子を代入する
+    Private number1 As Double = 0     '演算子入力前の数値
+    Private number2 As Double = 0     '演算子入力後の数値
+    Private operatorValue As OperatorType = OperatorType.None     '演算子を格納する変数。
+    Private previousOperation As OperationType = OperationType.ClearButton    '一つ前に押されたボタンを格納する。
 
     ' 数ボタンが押された時に動作するメソッド
     Public Function NumberAct(numberTemporary As Integer) As Double
@@ -51,13 +51,13 @@
         number1 = 0
         number2 = 0
         operatorValue = OperatorType.None
-        previousOperation = OperationType.ClearButton   'ボタンタイプにイコールボタンをセット
+        previousOperation = OperationType.ClearButton   '直前の動作(previousOperation)にイコール動作をセット
     End Sub
 
     ' 演算子ボタンが押されたときに動作する関数
     Public Sub OperatorAct(operatorTemporary As OperatorType)
 
-        previousOperation = OperationType.OperatorButton 'ボタンタイプに演算子ボタンをセット
+        previousOperation = OperationType.OperatorButton '直前の動作(previousOperation)に演算動作ンをセット
         operatorValue = operatorTemporary
 
     End Sub
@@ -65,7 +65,7 @@
     ' イコールボタンが押されたときに動作する関数
     Public Function EqualAct() As Double
 
-        Dim calculateResult = Calculate(number1, number2, operatorValue)
+        Dim calculateResult = Calculate()
 
         '全ての変数、演算子タイプをリセット
         number1 = 0
@@ -74,10 +74,11 @@
         previousOperation = OperationType.EqualButton   'ボタンタイプにイコールボタンをセット
 
         Return calculateResult
+
     End Function
 
     ' 演算子に応じてnumber1とnumber2を使って計算を実行する関数
-    Private Function Calculate(number1 As Integer, number2 As Integer, operatorValue As OperatorType) As Double
+    Private Function Calculate() As Double
 
         Dim calculateResult As Double = 0
 

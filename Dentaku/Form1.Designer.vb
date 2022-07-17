@@ -31,7 +31,7 @@ Partial Class Form1
         Me.btn3 = New System.Windows.Forms.Button()
         Me.btn2 = New System.Windows.Forms.Button()
         Me.btn1 = New System.Windows.Forms.Button()
-        Me.btnx = New System.Windows.Forms.Button()
+        Me.btn0 = New System.Windows.Forms.Button()
         Me.btnPeriod = New System.Windows.Forms.Button()
         Me.btnTimes = New System.Windows.Forms.Button()
         Me.btnClear = New System.Windows.Forms.Button()
@@ -133,15 +133,15 @@ Partial Class Form1
         Me.btn1.Text = "1"
         Me.btn1.UseVisualStyleBackColor = True
         '
-        'btnx
+        'btn0
         '
-        Me.btnx.Font = New System.Drawing.Font("游ゴシック", 19.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.btnx.Location = New System.Drawing.Point(25, 373)
-        Me.btnx.Name = "btnx"
-        Me.btnx.Size = New System.Drawing.Size(146, 52)
-        Me.btnx.TabIndex = 1
-        Me.btnx.Text = "0"
-        Me.btnx.UseVisualStyleBackColor = True
+        Me.btn0.Font = New System.Drawing.Font("游ゴシック", 19.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.btn0.Location = New System.Drawing.Point(25, 373)
+        Me.btn0.Name = "btn0"
+        Me.btn0.Size = New System.Drawing.Size(146, 52)
+        Me.btn0.TabIndex = 1
+        Me.btn0.Text = "0"
+        Me.btn0.UseVisualStyleBackColor = True
         '
         'btnPeriod
         '
@@ -250,7 +250,7 @@ Partial Class Form1
         Me.Controls.Add(Me.btnClear)
         Me.Controls.Add(Me.btnTimes)
         Me.Controls.Add(Me.btnPeriod)
-        Me.Controls.Add(Me.btnx)
+        Me.Controls.Add(Me.btn0)
         Me.Controls.Add(Me.btn3)
         Me.Controls.Add(Me.btn2)
         Me.Controls.Add(Me.btn1)
@@ -278,7 +278,7 @@ Partial Class Form1
     Friend WithEvents btn3 As Button
     Friend WithEvents btn2 As Button
     Friend WithEvents btn1 As Button
-    Friend WithEvents btnx As Button
+    Friend WithEvents btn0 As Button
     Friend WithEvents btnPeriod As Button
     Friend WithEvents btnTimes As Button
     Friend WithEvents btnClear As Button
