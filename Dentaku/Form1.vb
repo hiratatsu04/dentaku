@@ -37,8 +37,18 @@
 
         Dim message As String = ""
         Dim number As Integer
+        Dim numberTemporary As Integer      '押されたボタンを一時的に格納するローカル変数
 
-        NumberAct(sender, number1, number2, number, message, previousButton)
+        '押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
+        Dim buttonNumber = CType(sender, Button)   'senderをボタン型に変更
+        Dim buttonText As String = buttonNumber.Name.Remove(0, 3)
+        If Not Integer.TryParse(buttonText, numberTemporary) Then
+            MessageBox.Show("ボタンフォームに数値以外の値が入っています")
+            Return
+        End If
+
+        'NumberAct(sender, number1, number2, number, message, previousButton)
+        NumberAct(numberTemporary, number1, number2, number, message, previousButton)
 
         txtShowResult.Text = number.ToString()
         If Not message = Nothing Then
@@ -78,17 +88,18 @@
     End Sub
 
     ' 数ボタンが押された時に動作するメソッド
-    Private Sub NumberAct(sender As Object, ByRef number1 As Integer, ByRef number2 As Integer, ByRef number As Integer, ByRef message As String, ByRef previousButton As ButtonType)
+    'Private Sub NumberAct(sender As Object, ByRef number1 As Integer, ByRef number2 As Integer, ByRef number As Integer, ByRef message As String, ByRef previousButton As ButtonType)
+    Private Sub NumberAct(numberTemporary As Integer, ByRef number1 As Integer, ByRef number2 As Integer, ByRef number As Integer, ByRef message As String, ByRef previousButton As ButtonType)
 
-        Dim numberTemporary As Integer      '押されたボタンを一時的に格納するローカル変数
+        'Dim numberTemporary As Integer      '押されたボタンを一時的に格納するローカル変数
 
-        '押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
-        Dim buttonNumber = CType(sender, Button)   'senderをボタン型に変更
-        Dim buttonText As String = buttonNumber.Name.Remove(0, 3)
-        If Not Integer.TryParse(buttonText, numberTemporary) Then
-            message = "ボタンフォームに数値以外の値が入っています"
-            Return
-        End If
+        ''押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
+        'Dim buttonNumber = CType(sender, Button)   'senderをボタン型に変更
+        'Dim buttonText As String = buttonNumber.Name.Remove(0, 3)
+        'If Not Integer.TryParse(buttonText, numberTemporary) Then
+        '    message = "ボタンフォームに数値以外の値が入っています"
+        '    Return
+        'End If
 
         'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
         If number1 = 0 Then
