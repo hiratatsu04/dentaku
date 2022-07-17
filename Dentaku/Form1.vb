@@ -47,7 +47,6 @@
             Return
         End If
 
-        'NumberAct(sender, number1, number2, number, message, previousButton)
         NumberAct(numberTemporary, number1, number2, number, message, previousButton)
 
         txtShowResult.Text = number.ToString()
@@ -62,8 +61,21 @@
     '演算子ボタンが押された時の動作
     Private Sub OperatorButtonClick(sender As Object, e As EventArgs) Handles btnTimes.Click, btnDivide.Click, btnPlus.Click, btnMinus.Click
 
-        Dim operatorTemporary As OperatorType = OperatorAct(sender)
+        Dim buttonOperator = CType(sender, Button)  'senderをボタン型に変更
+        Dim operatorTemporary As OperatorType      '演算子ボタンの種類を格納する変数
 
+        Select Case buttonOperator.Name
+            Case "btnPlus"
+                operatorTemporary = OperatorType.Plus
+            Case "btnMinus"
+                operatorTemporary = OperatorType.Minus
+            Case "btnTimes"
+                operatorTemporary = OperatorType.Times
+            Case "btnDivide"
+                operatorTemporary = OperatorType.Divide
+        End Select
+
+        OperatorAct(operatorTemporary)
         txtShowOperator.Text = operatorTexts(operatorTemporary)
 
     End Sub
@@ -88,18 +100,7 @@
     End Sub
 
     ' 数ボタンが押された時に動作するメソッド
-    'Private Sub NumberAct(sender As Object, ByRef number1 As Integer, ByRef number2 As Integer, ByRef number As Integer, ByRef message As String, ByRef previousButton As ButtonType)
     Private Sub NumberAct(numberTemporary As Integer, ByRef number1 As Integer, ByRef number2 As Integer, ByRef number As Integer, ByRef message As String, ByRef previousButton As ButtonType)
-
-        'Dim numberTemporary As Integer      '押されたボタンを一時的に格納するローカル変数
-
-        ''押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
-        'Dim buttonNumber = CType(sender, Button)   'senderをボタン型に変更
-        'Dim buttonText As String = buttonNumber.Name.Remove(0, 3)
-        'If Not Integer.TryParse(buttonText, numberTemporary) Then
-        '    message = "ボタンフォームに数値以外の値が入っています"
-        '    Return
-        'End If
 
         'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
         If number1 = 0 Then
@@ -152,31 +153,16 @@
     End Sub
 
     ' 演算子ボタンが押されたときに動作する関数
-    Private Function OperatorAct(sender As Object) As OperatorType
-
-        Dim buttonOperator = CType(sender, Button)  'senderをボタン型に変更
-        Dim operatorTemporary As OperatorType      '演算子ボタンの種類を格納する変数
-
-        Select Case buttonOperator.Name
-            Case "btnPlus"
-                operatorTemporary = OperatorType.Plus
-            Case "btnMinus"
-                operatorTemporary = OperatorType.Minus
-            Case "btnTimes"
-                operatorTemporary = OperatorType.Times
-            Case "btnDivide"
-                operatorTemporary = OperatorType.Divide
-        End Select
+    Private Sub OperatorAct(operatorTemporary As OperatorType)
 
         previousButton = ButtonType.OperatorButton 'ボタンタイプに演算子ボタンをセット
         operatorValue = operatorTemporary
 
-        Return (operatorTemporary)
-
-    End Function
+    End Sub
 
     ' イコールボタンが押されたときに動作する関数
     Private Function EqualAct() As Double
+
         Dim calculateResult = Calculate(number1, number2, operatorValue)
 
         '全ての変数、演算子タイプをリセット
