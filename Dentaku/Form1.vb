@@ -35,8 +35,6 @@
     '数ボタンが押された時の動作
     Private Sub NumberButtonClick(sender As Object, e As EventArgs) Handles btnx.Click, btn1.Click, btn2.Click, btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click
 
-        Dim message As String = ""
-        Dim number As Integer
         Dim numberTemporary As Integer      '押されたボタンを一時的に格納するローカル変数
 
         '押されたボタンの判別。ボタンのNAMEから「btn」を除いて、数値に変換して、numTempに代入
@@ -47,12 +45,14 @@
             Return
         End If
 
-        NumberAct(numberTemporary, number1, number2, number, message, previousButton)
+        Try
 
-        txtShowResult.Text = number.ToString()
-        If Not message = Nothing Then
-            MessageBox.Show(message)
-        End If
+            Dim number = NumberAct(numberTemporary, number1, number2, previousButton)
+            txtShowResult.Text = number.ToString()
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
 
         Debug.WriteLine("previousButton = " + previousButton.ToString)
 
@@ -100,49 +100,45 @@
     End Sub
 
     ' 数ボタンが押された時に動作するメソッド
-    Private Sub NumberAct(numberTemporary As Integer, ByRef number1 As Integer, ByRef number2 As Integer, ByRef number As Integer, ByRef message As String, ByRef previousButton As ButtonType)
+    Private Function NumberAct(numberTemporary As Integer, ByRef number1 As Integer, ByRef number2 As Integer, ByRef previousButton As ButtonType) As Double
 
         'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
         If number1 = 0 Then
             number1 = numberTemporary
-            number = number1
-            Return
+            Return number1
         End If
 
         '演算子が格納されているか判別。入っていなければNumber1にnumberTemporaryを加えてプロシージャを抜ける
         If operatorValue = OperatorType.None Then
             Dim number1Text = number1.ToString() & numberTemporary.ToString()
             If Not Integer.TryParse(number1Text, number1) Then
-                message = "Num1に数値以外が代入されました。"
+                Throw New FormatException($"{number1Text} を整数に変換できません")
             End If
-            number = number1
-            Return
+            Return number1
         End If
 
         'Number2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Number2にnumberTemporaryを入れる。演算子ボタン以外であればNumber1にnumberTemporaryを加える。
         If number2 = 0 Then
             If previousButton = ButtonType.OperatorButton Then
                 number2 = numberTemporary
-                number = number2
-                Return
+                Return number2
             Else
                 Dim number1Text = number1.ToString() & numberTemporary.ToString()
                 If Not Integer.TryParse(number1Text, number1) Then
-                    message = "Num1に数値以外が代入されました。"
+                    Throw New FormatException($"{number1Text} を整数に変換できません")
                 End If
-                number = number1
-                Return
+                Return number1
             End If
         End If
 
         Dim number2Text = number2.ToString() & numberTemporary.ToString()
         If Not Integer.TryParse(number2Text, number2) Then
-            message = "Num2に数値以外が代入されました。"
+            Throw New FormatException($"{number2Text} を整数に変換できません")
         End If
 
-        number = number2
+        Return number2
 
-    End Sub
+    End Function
 
     ' クリアボタンが押された時に動作するメソッド
     Private Sub ClearAct(ByRef number1 As Integer, ByRef number2 As Integer, ByRef operatorValue As OperatorType, ByRef previousButton As ButtonType)
