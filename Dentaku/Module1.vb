@@ -9,12 +9,12 @@
         None
     End Enum
 
-    'ボタンタイプの定義（列挙型）
-    Public Enum OperationType
-        NumberButton
-        OperatorButton
-        EqualButton
-        ClearButton
+    '動作の定義（列挙型）
+    Public Enum ActionType
+        NumberAction
+        OperatorAction
+        EqualAction
+        ClearAction
     End Enum
 
 End Module

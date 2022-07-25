@@ -2,8 +2,8 @@
 
     Private numberBeforeOpetator As Double = 0     '演算子入力前の数値
     Private numberAfterOperator As Double = 0     '演算子入力後の数値
-    Private operatorValue As OperatorType = OperatorType.None     '演算子を格納する変数。
-    Private previousOperation As OperationType = OperationType.ClearButton    '一つ前に押されたボタンを格納する。
+    Private operatorType As OperatorType = OperatorType.None     '演算子を格納する変数。
+    Private previousAction As ActionType = ActionType.ClearAction    '一つ前に押されたボタンを格納する。
 
     ' 数ボタンが押された時に動作するメソッド
     Public Function NumberAct(numberTemporary As Integer) As Double
@@ -15,7 +15,7 @@
         End If
 
         '演算子が格納されているか判別。入っていなければNumber1にnumberTemporaryを加えてプロシージャを抜ける
-        If operatorValue = OperatorType.None Then
+        If operatorType = OperatorType.None Then
             Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & numberTemporary.ToString()
             If Not Integer.TryParse(numberBeforeOpetatorText, numberBeforeOpetator) Then
                 Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
@@ -25,7 +25,7 @@
 
         'Number2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Number2にnumberTemporaryを入れる。演算子ボタン以外であればNumber1にnumberTemporaryを加える。
         If numberAfterOperator = 0 Then
-            If previousOperation = OperationType.OperatorButton Then
+            If previousAction = ActionType.OperatorAction Then
                 numberAfterOperator = numberTemporary
                 Return numberAfterOperator
             Else
@@ -50,15 +50,15 @@
     Public Sub ClearAct()
         numberBeforeOpetator = 0
         numberAfterOperator = 0
-        operatorValue = OperatorType.None
-        previousOperation = OperationType.ClearButton   '直前の動作(previousOperation)にイコール動作をセット
+        operatorType = OperatorType.None
+        previousAction = ActionType.ClearAction   '直前の動作(previousAction)にイコール動作をセット
     End Sub
 
     ' 演算子ボタンが押されたときに動作する関数
     Public Sub OperatorAct(operatorTemporary As OperatorType)
 
-        previousOperation = OperationType.OperatorButton '直前の動作(previousOperation)に演算動作ンをセット
-        operatorValue = operatorTemporary
+        previousAction = ActionType.OperatorAction '直前の動作(previousAction)に演算動作ンをセット
+        operatorType = operatorTemporary
 
     End Sub
 
@@ -70,8 +70,8 @@
         '全ての変数、演算子タイプをリセット
         numberBeforeOpetator = 0
         numberAfterOperator = 0
-        operatorValue = OperatorType.None
-        previousOperation = OperationType.EqualButton   'ボタンタイプにイコールボタンをセット
+        operatorType = OperatorType.None
+        previousAction = ActionType.EqualAction   'ボタンタイプにイコールボタンをセット
 
         Return calculateResult
 
@@ -83,7 +83,7 @@
         Dim calculateResult As Double = 0
 
         '演算子ボタンの種類に応じて計算する
-        Select Case operatorValue
+        Select Case operatorType
             Case OperatorType.Plus
                 calculateResult = numberBeforeOpetator + numberAfterOperator
             Case OperatorType.Minus
