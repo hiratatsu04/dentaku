@@ -2,19 +2,19 @@
 
     '演算子の定義（列挙型）
     Public Enum OperatorType
-        Plus = 0
-        Minus = 1
-        Times = 2
-        Divide = 3
-        None = 4
+        Plus
+        Minus
+        Times
+        Divide
+        None
     End Enum
 
     'ボタンタイプの定義（列挙型）
     Public Enum OperationType
-        NumberButton = 10
-        OperatorButton = 11
-        EqualButton = 12
-        ClearButton = 13
+        NumberButton
+        OperatorButton
+        EqualButton
+        ClearButton
     End Enum
 
 End Module
