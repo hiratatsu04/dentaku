@@ -6,17 +6,17 @@
     Private previousAction As ActionType = ActionType.ClearAction    '一つ前に押されたボタンを格納する。
 
     ' 数ボタンが押された時に動作するメソッド
-    Public Function NumberAct(numberTemporary As Integer) As Double
+    Public Function Number(inputNumber As Integer) As Double
 
         'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
         If numberBeforeOpetator = 0 Then
-            numberBeforeOpetator = numberTemporary
+            numberBeforeOpetator = inputNumber
             Return numberBeforeOpetator
         End If
 
         '演算子が格納されているか判別。入っていなければNumber1にnumberTemporaryを加えてプロシージャを抜ける
         If operatorType = OperatorType.None Then
-            Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & numberTemporary.ToString()
+            Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & inputNumber.ToString()
             If Not Integer.TryParse(numberBeforeOpetatorText, numberBeforeOpetator) Then
                 Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
             End If
@@ -26,10 +26,10 @@
         'Number2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Number2にnumberTemporaryを入れる。演算子ボタン以外であればNumber1にnumberTemporaryを加える。
         If numberAfterOperator = 0 Then
             If previousAction = ActionType.OperatorAction Then
-                numberAfterOperator = numberTemporary
+                numberAfterOperator = inputNumber
                 Return numberAfterOperator
             Else
-                Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & numberTemporary.ToString()
+                Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & inputNumber.ToString()
                 If Not Integer.TryParse(numberBeforeOpetatorText, numberBeforeOpetator) Then
                     Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
                 End If
@@ -37,7 +37,7 @@
             End If
         End If
 
-        Dim numberAfterOperatorText = numberAfterOperator.ToString() & numberTemporary.ToString()
+        Dim numberAfterOperatorText = numberAfterOperator.ToString() & inputNumber.ToString()
         If Not Integer.TryParse(numberAfterOperatorText, numberAfterOperator) Then
             Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
         End If
@@ -47,7 +47,7 @@
     End Function
 
     ' クリアボタンが押された時に動作するメソッド
-    Public Sub ClearAct()
+    Public Sub Clear()
         numberBeforeOpetator = 0
         numberAfterOperator = 0
         operatorType = OperatorType.None
@@ -55,17 +55,17 @@
     End Sub
 
     ' 演算子ボタンが押されたときに動作する関数
-    Public Sub OperatorAct(operatorTemporary As OperatorType)
+    Public Sub OperatorAction(inputOperatorType As OperatorType)
 
         previousAction = ActionType.OperatorAction '直前の動作(previousAction)に演算動作ンをセット
-        operatorType = operatorTemporary
+        operatorType = inputOperatorType
 
     End Sub
 
     ' イコールボタンが押されたときに動作する関数
-    Public Function EqualAct() As Double
+    Public Function Equal() As Double
 
-        Dim calculateResult = Calculate()
+        Dim calculateResult As Double = Calculate()
 
         '全ての変数、演算子タイプをリセット
         numberBeforeOpetator = 0
