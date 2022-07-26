@@ -1,20 +1,22 @@
 ﻿Public Class Calculator
 
-    Private numberBeforeOpetator As Double = 0     '演算子入力前の数値
-    Private numberAfterOperator As Double = 0     '演算子入力後の数値
-    Private operatorType As OperatorType = OperatorType.None     '演算子を格納する変数。
-    Private previousAction As ActionType = ActionType.ClearAction    '一つ前に押されたボタンを格納する。
+    Private numberBeforeOpetator As Double = 0                       '演算子入力前の数値
+    Private numberAfterOperator As Double = 0                        '演算子入力後の数値
+    Private operatorType As OperatorType = OperatorType.None         '演算子の種類を格納する
+    Private previousAction As ActionType = ActionType.ClearAction    '一つ前の動作を格納する
 
-    ' 数ボタンが押された時に動作するメソッド
+    ''' <summary>
+    ''' inputNumberを受けて表示される数を更新する
+    ''' </summary>
+    ''' <param name="inputNumber">ユーザーからの数入力</param>
+    ''' <returns>画面に表示される数字(double型)</returns>
     Public Function Number(inputNumber As Integer) As Double
 
-        'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
         If numberBeforeOpetator = 0 Then
             numberBeforeOpetator = inputNumber
             Return numberBeforeOpetator
         End If
 
-        '演算子が格納されているか判別。入っていなければNumber1にnumberTemporaryを加えてプロシージャを抜ける
         If operatorType = OperatorType.None Then
             Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & inputNumber.ToString()
             If Not Integer.TryParse(numberBeforeOpetatorText, numberBeforeOpetator) Then
@@ -23,7 +25,6 @@
             Return numberBeforeOpetator
         End If
 
-        'Number2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Number2にnumberTemporaryを入れる。演算子ボタン以外であればNumber1にnumberTemporaryを加える。
         If numberAfterOperator = 0 Then
             If previousAction = ActionType.OperatorAction Then
                 numberAfterOperator = inputNumber
@@ -46,18 +47,27 @@
 
     End Function
 
-    ' クリアボタンが押された時に動作するメソッド
+    ''' <summary>
+    ''' 数・演算子をクリアする
+    ''' </summary>
     Public Sub Clear()
+
+        ' 数・演算子・直前の動作をリセット
         numberBeforeOpetator = 0
         numberAfterOperator = 0
         operatorType = OperatorType.None
-        previousAction = ActionType.ClearAction   '直前の動作(previousAction)にイコール動作をセット
+        previousAction = ActionType.ClearAction
+
     End Sub
 
-    ' 演算子ボタンが押されたときに動作する関数
+    ''' <summary>
+    ''' TODO：numberAfterOperatorが入っているときの動作が書けていない
+    ''' 
+    ''' </summary>
+    ''' <param name="inputOperatorType"></param>
     Public Sub OperatorAction(inputOperatorType As OperatorType)
 
-        previousAction = ActionType.OperatorAction '直前の動作(previousAction)に演算動作ンをセット
+        previousAction = ActionType.OperatorAction
         operatorType = inputOperatorType
 
     End Sub
