@@ -48,7 +48,7 @@
     End Function
 
     ''' <summary>
-    ''' 数・演算子をクリアする
+    ''' 数・演算子（メンバ変数）をクリアする
     ''' </summary>
     Public Sub Clear()
 
@@ -61,8 +61,8 @@
     End Sub
 
     ''' <summary>
-    ''' TODO：numberAfterOperatorが入っているときの動作が書けていない
-    ''' 
+    ''' TODO：numberAfterOperatorに数値が入っているときの動作が書けていない
+    ''' numberAfterOperatorに数値が入っていれば、計算結果を返す
     ''' </summary>
     ''' <param name="inputOperatorType"></param>
     Public Sub OperatorAction(inputOperatorType As OperatorType)
@@ -72,22 +72,28 @@
 
     End Sub
 
-    ' イコールボタンが押されたときに動作する関数
+    ''' <summary>
+    ''' 演算を実施後、変数・演算子の種類（メンバ変数）をリセット
+    ''' </summary>
+    ''' <returns></returns>
     Public Function Equal() As Double
 
         Dim calculateResult As Double = Calculate()
 
-        '全ての変数、演算子タイプをリセット
+        '全ての変数・演算子の種類をリセット
         numberBeforeOpetator = 0
         numberAfterOperator = 0
         operatorType = OperatorType.None
-        previousAction = ActionType.EqualAction   'ボタンタイプにイコールボタンをセット
+        previousAction = ActionType.EqualAction
 
         Return calculateResult
 
     End Function
 
-    ' 演算子に応じてnumberBeforeOpetatorとnumberAfterOperatorを使って計算を実行する関数
+    ''' <summary>
+    ''' numberBeforeOpetatorとnumberAfterOpetatorを演算子に応じて計算する。
+    ''' </summary>
+    ''' <returns></returns>
     Private Function Calculate() As Double
 
         Dim calculateResult As Double = 0
