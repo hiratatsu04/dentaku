@@ -54,8 +54,9 @@
                 operatorType = OperatorType.Divide
         End Select
 
-        calculatorObject.OperatorAction(operatorType)
+        Dim calculateResult As Double = calculatorObject.OperatorAction(operatorType)
         txtShowOperator.Text = operatorTexts(operatorType)
+        txtShowResult.Text = calculateResult
 
     End Sub
 
