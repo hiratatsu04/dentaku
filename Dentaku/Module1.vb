@@ -1,20 +1,45 @@
 ﻿Public Module Module1
 
-    '演算子の定義（列挙型）
+    ''' <summary>
+    ''' <para>演算子の種類の列挙型</para>
+    ''' <para>・Plus</para>
+    ''' <para>・Minus</para>
+    ''' <para>・Times</para>
+    ''' <para>・Divide</para>
+    ''' <para>・None：演算子なし</para>
+    ''' </summary>
     Public Enum OperatorType
-        Plus = 0
-        Minus = 1
-        Times = 2
-        Divide = 3
-        None = 4
+        ''' <summary>
+        ''' ＋
+        ''' </summary>
+        Plus
+        ''' <summary>
+        ''' ー
+        ''' </summary>
+        Minus
+        ''' <summary>
+        ''' ×
+        ''' </summary>
+        Times
+        ''' <summary>
+        ''' ÷
+        ''' </summary>
+        Divide
+        None
     End Enum
 
-    'ボタンタイプの定義（列挙型）
-    Public Enum OperationType
-        NumberButton = 10
-        OperatorButton = 11
-        EqualButton = 12
-        ClearButton = 13
+    ''' <summary>
+    ''' <para>計算機動作の列挙型</para>
+    ''' <para>・NumberAction：数ボタン押下時の動作</para>
+    ''' <para>・OperatorAction：演算子ボタン押下時の動作</para>
+    ''' <para>・EqualAction：イコールボタン押下時の動作</para>
+    ''' <para>・ClearAciton：クリアボタン押下時の動作</para>
+    ''' </summary>
+    Public Enum ActionType
+        NumberAction
+        OperatorAction
+        EqualAction
+        ClearAction
     End Enum
 
 End Module

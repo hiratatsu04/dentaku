@@ -1,101 +1,117 @@
 ﻿Public Class Calculator
 
-    Private number1 As Double = 0     '演算子入力前の数値
-    Private number2 As Double = 0     '演算子入力後の数値
-    Private operatorValue As OperatorType = OperatorType.None     '演算子を格納する変数。
-    Private previousOperation As OperationType = OperationType.ClearButton    '一つ前に押されたボタンを格納する。
+    Private numberBeforeOpetator As Double = 0                       '演算子入力前の数値
+    Private numberAfterOperator As Double = 0                        '演算子入力後の数値
+    Private operatorType As OperatorType = OperatorType.None         '演算子の種類を格納する
+    Private previousAction As ActionType = ActionType.ClearAction    '一つ前の動作を格納する
 
-    ' 数ボタンが押された時に動作するメソッド
-    Public Function NumberAct(numberTemporary As Integer) As Double
+    ''' <summary>
+    ''' inputNumberを受けて表示される数を更新する
+    ''' </summary>
+    ''' <param name="inputNumber">ユーザーからの数入力</param>
+    ''' <returns>画面に表示される数字(double型)</returns>
+    Public Function Number(inputNumber As Integer) As Double
 
-        'Number1に数字が入っているか判別。入っていなければ、numberTemporaryを入れてプロシージャを抜ける
-        If number1 = 0 Then
-            number1 = numberTemporary
-            Return number1
+        If numberBeforeOpetator = 0 Then
+            numberBeforeOpetator = inputNumber
+            Return numberBeforeOpetator
         End If
 
-        '演算子が格納されているか判別。入っていなければNumber1にnumberTemporaryを加えてプロシージャを抜ける
-        If operatorValue = OperatorType.None Then
-            Dim number1Text = number1.ToString() & numberTemporary.ToString()
-            If Not Integer.TryParse(number1Text, number1) Then
-                Throw New FormatException($"{number1Text} を整数に変換できません")
+        If operatorType = OperatorType.None Then
+            Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & inputNumber.ToString()
+            If Not Integer.TryParse(numberBeforeOpetatorText, numberBeforeOpetator) Then
+                Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
             End If
-            Return number1
+            Return numberBeforeOpetator
         End If
 
-        'Number2に数字が格納されているか判別。数字が入っておらず、ひとつ前に押されたボタンが演算子であれば、Number2にnumberTemporaryを入れる。演算子ボタン以外であればNumber1にnumberTemporaryを加える。
-        If number2 = 0 Then
-            If previousOperation = OperationType.OperatorButton Then
-                number2 = numberTemporary
-                Return number2
+        If numberAfterOperator = 0 Then
+            If previousAction = ActionType.OperatorAction Then
+                numberAfterOperator = inputNumber
+                Return numberAfterOperator
             Else
-                Dim number1Text = number1.ToString() & numberTemporary.ToString()
-                If Not Integer.TryParse(number1Text, number1) Then
-                    Throw New FormatException($"{number1Text} を整数に変換できません")
+                Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & inputNumber.ToString()
+                If Not Integer.TryParse(numberBeforeOpetatorText, numberBeforeOpetator) Then
+                    Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
                 End If
-                Return number1
+                Return numberBeforeOpetator
             End If
         End If
 
-        Dim number2Text = number2.ToString() & numberTemporary.ToString()
-        If Not Integer.TryParse(number2Text, number2) Then
-            Throw New FormatException($"{number2Text} を整数に変換できません")
+        Dim numberAfterOperatorText = numberAfterOperator.ToString() & inputNumber.ToString()
+        If Not Integer.TryParse(numberAfterOperatorText, numberAfterOperator) Then
+            Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
         End If
 
-        Return number2
+        Return numberAfterOperator
 
     End Function
 
-    ' クリアボタンが押された時に動作するメソッド
-    Public Sub ClearAct()
-        number1 = 0
-        number2 = 0
-        operatorValue = OperatorType.None
-        previousOperation = OperationType.ClearButton   '直前の動作(previousOperation)にイコール動作をセット
-    End Sub
+    ''' <summary>
+    ''' 数・演算子（メンバ変数）をクリアする
+    ''' </summary>
+    Public Sub Clear()
 
-    ' 演算子ボタンが押されたときに動作する関数
-    Public Sub OperatorAct(operatorTemporary As OperatorType)
-
-        previousOperation = OperationType.OperatorButton '直前の動作(previousOperation)に演算動作ンをセット
-        operatorValue = operatorTemporary
+        ' 数・演算子・直前の動作をリセット
+        numberBeforeOpetator = 0
+        numberAfterOperator = 0
+        operatorType = OperatorType.None
+        previousAction = ActionType.ClearAction
 
     End Sub
 
-    ' イコールボタンが押されたときに動作する関数
-    Public Function EqualAct() As Double
+    ''' <summary>
+    ''' TODO：numberAfterOperatorに数値が入っているときの動作が書けていない
+    ''' numberAfterOperatorに数値が入っていれば、計算結果を返す
+    ''' </summary>
+    ''' <param name="inputOperatorType"></param>
+    Public Sub OperatorAction(inputOperatorType As OperatorType)
 
-        Dim calculateResult = Calculate()
+        previousAction = ActionType.OperatorAction
+        operatorType = inputOperatorType
 
-        '全ての変数、演算子タイプをリセット
-        number1 = 0
-        number2 = 0
-        operatorValue = OperatorType.None
-        previousOperation = OperationType.EqualButton   'ボタンタイプにイコールボタンをセット
+    End Sub
+
+    ''' <summary>
+    ''' 演算を実施後、変数・演算子の種類（メンバ変数）をリセット
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function Equal() As Double
+
+        Dim calculateResult As Double = Calculate()
+
+        '全ての変数・演算子の種類をリセット
+        numberBeforeOpetator = 0
+        numberAfterOperator = 0
+        operatorType = OperatorType.None
+        previousAction = ActionType.EqualAction
 
         Return calculateResult
 
     End Function
 
-    ' 演算子に応じてnumber1とnumber2を使って計算を実行する関数
+    ''' <summary>
+    ''' numberBeforeOpetatorとnumberAfterOpetatorを演算子に応じて計算する。
+    ''' </summary>
+    ''' <returns></returns>
     Private Function Calculate() As Double
 
         Dim calculateResult As Double = 0
 
         '演算子ボタンの種類に応じて計算する
-        Select Case operatorValue
+        Select Case operatorType
             Case OperatorType.Plus
-                calculateResult = number1 + number2
+                calculateResult = numberBeforeOpetator + numberAfterOperator
             Case OperatorType.Minus
-                calculateResult = number1 - number2
+                calculateResult = numberBeforeOpetator - numberAfterOperator
             Case OperatorType.Times
-                calculateResult = number1 * number2
+                calculateResult = numberBeforeOpetator * numberAfterOperator
             Case OperatorType.Divide
-                calculateResult = number1 / number2
+                calculateResult = numberBeforeOpetator / numberAfterOperator
         End Select
 
-        Debug.WriteLine(number1.ToString)
-        Debug.WriteLine(number2.ToString)
+        Debug.WriteLine(numberBeforeOpetator.ToString)
+        Debug.WriteLine(numberAfterOperator.ToString)
 
         Return calculateResult
 
