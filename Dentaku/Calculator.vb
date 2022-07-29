@@ -67,6 +67,10 @@
     ''' <param name="inputOperatorType"></param>
     Public Function OperatorAction(inputOperatorType As OperatorType) As Double
 
+        If previousAction = ActionType.EqualAction Then
+            numberAfterOperator = 0
+        End If
+
         If Not numberAfterOperator = 0 Then
             Dim calculateResult = Calculate()
             numberBeforeOpetator = calculateResult
@@ -89,9 +93,7 @@
         Dim calculateResult As Double = Calculate()
 
         '全ての変数・演算子の種類をリセット
-        numberBeforeOpetator = 0
-        numberAfterOperator = 0
-        operatorType = OperatorType.None
+        numberBeforeOpetator = calculateResult
         previousAction = ActionType.EqualAction
 
         Return calculateResult
