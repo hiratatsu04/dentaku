@@ -77,4 +77,11 @@
 
     End Sub
 
+    Private Sub btnPeriod_Click(sender As Object, e As EventArgs) Handles btnPoint.Click
+
+        Dim currentNumber As String = calculatorObject.Point()
+
+        txtShowResult.Text = currentNumber
+
+    End Sub
 End Class

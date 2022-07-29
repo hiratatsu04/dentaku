@@ -1,9 +1,10 @@
 ﻿Public Class Calculator
 
-    Private numberBeforeOpetator As Double = 0                       '演算子入力前の数値
-    Private numberAfterOperator As Double = 0                        '演算子入力後の数値
-    Private operatorType As OperatorType = OperatorType.None         '演算子の種類を格納する
-    Private previousAction As ActionType = ActionType.ClearAction    '一つ前の動作を格納する
+    Private numberBeforeOpetator As Double = 0                      '演算子入力前の数値
+    Private numberAfterOperator As Double = 0                       '演算子入力後の数値
+    Private operatorType As OperatorType = OperatorType.None        '演算子の種類を格納する
+    Private previousAction As ActionType = ActionType.ClearAction   '一つ前の動作を格納する
+    Private addPoint As Boolean = False                             '小数点の要否判断に用いる
 
     ''' <summary>
     ''' inputNumberを受けて表示される数を更新する
@@ -44,6 +45,24 @@
         End If
 
         Return numberAfterOperator
+
+    End Function
+
+    Public Function Point() As String
+
+        addPoint = True
+
+        Dim currentNumber As String
+
+        If Not operatorType = OperatorType.None Then
+            currentNumber = numberAfterOperator.ToString() + "."
+            Debug.WriteLine("numberAfterOperator" + currentNumber)
+        Else
+            currentNumber = numberBeforeOpetator.ToString() + "."
+            Debug.WriteLine("numberBeforeOpetator" + currentNumber)
+        End If
+
+        Return currentNumber
 
     End Function
 
