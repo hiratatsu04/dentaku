@@ -1,10 +1,13 @@
 ﻿Public Class Calculator
 
-    Private numberBeforeOpetator As Double = 0                      '演算子入力前の数値
+    Private numberBeforeOperator As Double = 0                      '演算子入力前の数値
     Private numberAfterOperator As Double = 0                       '演算子入力後の数値
     Private operatorType As OperatorType = OperatorType.None        '演算子の種類を格納する
     Private previousAction As ActionType = ActionType.ClearAction   '一つ前の動作を格納する
     Private addPoint As Boolean = False                             '小数点の要否判断に用いる
+    Private addPointnumBefore As Boolean = False
+    Private addPointnumAfter As Boolean = False
+
 
     ''' <summary>
     ''' inputNumberを受けて表示される数を更新する
@@ -13,17 +16,24 @@
     ''' <returns>画面に表示される数字(double型)</returns>
     Public Function Number(inputNumber As Integer) As Double
 
-        If numberBeforeOpetator = 0 Then
-            numberBeforeOpetator = inputNumber
-            Return numberBeforeOpetator
+        If numberBeforeOperator = 0 Then
+            numberBeforeOperator = inputNumber
+            Return numberBeforeOperator
         End If
 
         If operatorType = OperatorType.None Then
-            Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & inputNumber.ToString()
-            If Not Integer.TryParse(numberBeforeOpetatorText, numberBeforeOpetator) Then
+            Dim numberBeforeOpetatorText = numberBeforeOperator.ToString() & inputNumber.ToString()
+
+            If addPointnumBefore = False Then
+                numberBeforeOpetatorText = numberBeforeOperator.ToString() & "." & inputNumber.ToString()
+                addPointnumBefore = True
+            End If
+
+            If Not Double.TryParse(numberBeforeOpetatorText, numberBeforeOperator) Then
                 Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
             End If
-            Return numberBeforeOpetator
+
+            Return numberBeforeOperator
         End If
 
         If numberAfterOperator = 0 Then
@@ -31,16 +41,29 @@
                 numberAfterOperator = inputNumber
                 Return numberAfterOperator
             Else
-                Dim numberBeforeOpetatorText = numberBeforeOpetator.ToString() & inputNumber.ToString()
-                If Not Integer.TryParse(numberBeforeOpetatorText, numberBeforeOpetator) Then
+                Dim numberBeforeOpetatorText = numberBeforeOperator.ToString() & inputNumber.ToString()
+
+                If addPointnumBefore = False Then
+                    numberBeforeOpetatorText = numberBeforeOperator.ToString() & "." & inputNumber.ToString()
+                    addPointnumBefore = True
+                End If
+
+                If Not Double.TryParse(numberBeforeOpetatorText, numberBeforeOperator) Then
                     Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
                 End If
-                Return numberBeforeOpetator
+
+                Return numberBeforeOperator
             End If
         End If
 
         Dim numberAfterOperatorText = numberAfterOperator.ToString() & inputNumber.ToString()
-        If Not Integer.TryParse(numberAfterOperatorText, numberAfterOperator) Then
+
+        If addPointnumAfter = False Then
+            numberAfterOperatorText = numberAfterOperator.ToString() & "." & inputNumber.ToString()
+            addPointnumAfter = True
+        End If
+
+        If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
             Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
         End If
 
@@ -50,6 +73,14 @@
 
     Public Function Point() As String
 
+        If addPointnumBefore = True And addPoint = True Then
+            Return numberBeforeOperator
+        End If
+
+        If addPointnumAfter = True Then
+            Return numberAfterOperator
+        End If
+
         addPoint = True
 
         Dim currentNumber As String
@@ -58,7 +89,7 @@
             currentNumber = numberAfterOperator.ToString() + "."
             Debug.WriteLine("numberAfterOperator" + currentNumber)
         Else
-            currentNumber = numberBeforeOpetator.ToString() + "."
+            currentNumber = numberBeforeOperator.ToString() + "."
             Debug.WriteLine("numberBeforeOpetator" + currentNumber)
         End If
 
@@ -72,10 +103,13 @@
     Public Sub Clear()
 
         ' 数・演算子・直前の動作をリセット
-        numberBeforeOpetator = 0
+        numberBeforeOperator = 0
         numberAfterOperator = 0
         operatorType = OperatorType.None
         previousAction = ActionType.ClearAction
+        addPoint = False
+        addPointnumAfter = False
+        addPointnumBefore = False
 
     End Sub
 
@@ -92,14 +126,14 @@
 
         If Not numberAfterOperator = 0 Then
             Dim calculateResult = Calculate()
-            numberBeforeOpetator = calculateResult
+            numberBeforeOperator = calculateResult
             numberAfterOperator = 0
         End If
 
         previousAction = ActionType.OperatorAction
         operatorType = inputOperatorType
 
-        Return numberBeforeOpetator
+        Return numberBeforeOperator
 
     End Function
 
@@ -112,7 +146,7 @@
         Dim calculateResult As Double = Calculate()
 
         '全ての変数・演算子の種類をリセット
-        numberBeforeOpetator = calculateResult
+        numberBeforeOperator = calculateResult
         previousAction = ActionType.EqualAction
 
         Return calculateResult
@@ -130,16 +164,16 @@
         '演算子ボタンの種類に応じて計算する
         Select Case operatorType
             Case OperatorType.Plus
-                calculateResult = numberBeforeOpetator + numberAfterOperator
+                calculateResult = numberBeforeOperator + numberAfterOperator
             Case OperatorType.Minus
-                calculateResult = numberBeforeOpetator - numberAfterOperator
+                calculateResult = numberBeforeOperator - numberAfterOperator
             Case OperatorType.Times
-                calculateResult = numberBeforeOpetator * numberAfterOperator
+                calculateResult = numberBeforeOperator * numberAfterOperator
             Case OperatorType.Divide
-                calculateResult = numberBeforeOpetator / numberAfterOperator
+                calculateResult = numberBeforeOperator / numberAfterOperator
         End Select
 
-        Debug.WriteLine(numberBeforeOpetator.ToString)
+        Debug.WriteLine(numberBeforeOperator.ToString)
         Debug.WriteLine(numberAfterOperator.ToString)
 
         Return calculateResult
