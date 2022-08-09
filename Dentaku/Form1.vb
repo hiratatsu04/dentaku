@@ -28,10 +28,8 @@
             Return
         End If
 
-
         Try
-            Dim numberForShowResult = calculatorObject.Number(inputNumber)
-            txtShowResult.Text = numberForShowResult.ToString()
+            txtShowResult.Text = calculatorObject.Number(inputNumber)
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
@@ -65,6 +63,7 @@
         Dim calculateResult As Double = calculatorObject.Equal()
 
         txtShowResult.Text = calculateResult.ToString()
+        txtShowOperator.Text = "＝"
 
     End Sub
 
