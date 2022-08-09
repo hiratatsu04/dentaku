@@ -17,7 +17,17 @@
     Public Function Number(inputNumber As Integer) As Double
 
         If numberBeforeOperator = 0 Then
-            numberBeforeOperator = inputNumber
+            If addPoint = True Then
+                Dim numberBeforeOpetatorText = numberBeforeOperator.ToString() & "." & inputNumber.ToString()
+                addPointnumBefore = True
+                addPoint = False
+                If Not Double.TryParse(numberBeforeOpetatorText, numberBeforeOperator) Then
+                    Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
+                End If
+            Else
+                numberBeforeOperator = inputNumber
+            End If
+
             Return numberBeforeOperator
         End If
 
@@ -73,17 +83,8 @@
 
     Public Function Point() As String
 
-        If addPointnumBefore = True And addPoint = True Then
-            Return numberBeforeOperator
-        End If
-
-        If addPointnumAfter = True Then
-            Return numberAfterOperator
-        End If
-
-        addPoint = True
-
         Dim currentNumber As String
+        addPoint = True
 
         If Not operatorType = OperatorType.None Then
             currentNumber = numberAfterOperator.ToString() + "."
@@ -91,6 +92,14 @@
         Else
             currentNumber = numberBeforeOperator.ToString() + "."
             Debug.WriteLine("numberBeforeOpetator" + currentNumber)
+        End If
+
+        If addPointnumBefore = True And operatorType = OperatorType.None Then
+            Return numberBeforeOperator
+        End If
+
+        If addPointnumAfter = True Then
+            Return numberAfterOperator
         End If
 
         Return currentNumber
