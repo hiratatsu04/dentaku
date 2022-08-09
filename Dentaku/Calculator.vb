@@ -65,12 +65,24 @@
     ''' numberAfterOperatorに数値が入っていれば、計算結果を返す
     ''' </summary>
     ''' <param name="inputOperatorType"></param>
-    Public Sub OperatorAction(inputOperatorType As OperatorType)
+    Public Function OperatorAction(inputOperatorType As OperatorType) As Double
+
+        If previousAction = ActionType.EqualAction Then
+            numberAfterOperator = 0
+        End If
+
+        If Not numberAfterOperator = 0 Then
+            Dim calculateResult = Calculate()
+            numberBeforeOpetator = calculateResult
+            numberAfterOperator = 0
+        End If
 
         previousAction = ActionType.OperatorAction
         operatorType = inputOperatorType
 
-    End Sub
+        Return numberBeforeOpetator
+
+    End Function
 
     ''' <summary>
     ''' 演算を実施後、変数・演算子の種類（メンバ変数）をリセット
@@ -81,9 +93,7 @@
         Dim calculateResult As Double = Calculate()
 
         '全ての変数・演算子の種類をリセット
-        numberBeforeOpetator = 0
-        numberAfterOperator = 0
-        operatorType = OperatorType.None
+        numberBeforeOpetator = calculateResult
         previousAction = ActionType.EqualAction
 
         Return calculateResult
