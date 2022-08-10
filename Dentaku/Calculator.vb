@@ -2,15 +2,19 @@
 
     Private numberBeforeOperator As Double = 0                      '演算子入力前の数値
     Private numberAfterOperator As Double = 0                       '演算子入力後の数値
-    Private numberBeforeOpetatorText As String = "0"                '演算子入力前の数値のテキスト。1.02などの小数点以下に0が入ったときの処理用
-    Private numberAfterOpetatorText As String = "0"                 '演算子入力後の数値のテキスト。同上
+    Private numberBeforeOperatorText As String = "0"                '演算子入力前の数値のテキスト。1.02などの小数点以下に0が入ったときの処理用
+    Private numberAfterOperatorText As String = "0"                 '演算子入力後の数値のテキスト。同上
     Private operatorType As OperatorType = OperatorType.None        '演算子の種類を格納する
     Private previousAction As ActionType = ActionType.ClearAction   '一つ前の動作を格納する
     Private addPoint As Boolean = False                             '小数点の要否判断に用いる
     Private addPointnumBefore As Boolean = False                    '演算子入力前の数値への小数点挿入判定
     Private addPointnumAfter As Boolean = False                     '演算子入力後の数値への小数点挿入判定
 
-
+    ''''''''''
+    'TODO:
+    '1.小数点以下数字の桁数制御
+    '2.
+    ''''''''''
 
     ''' <summary>
     ''' inputNumberを受けて表示される数を更新する
@@ -27,43 +31,43 @@
 
             If numberBeforeOperator = 0 And addPoint = False Then
                 numberBeforeOperator = inputNumber
-                numberBeforeOpetatorText = numberBeforeOperator.ToString()
+                numberBeforeOperatorText = numberBeforeOperator.ToString()
             ElseIf addPoint = True And addPointnumBefore = False Then
-                numberBeforeOpetatorText = numberBeforeOpetatorText & "." & inputNumber.ToString()
+                numberBeforeOperatorText = numberBeforeOperatorText & "." & inputNumber.ToString()
                 addPointnumBefore = True
                 addPoint = False
-                If Not Double.TryParse(numberBeforeOpetatorText, numberBeforeOperator) Then
-                    Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
+                If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
+                    Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
                 End If
             Else
-                numberBeforeOpetatorText = numberBeforeOpetatorText & inputNumber.ToString()
-                If Not Double.TryParse(numberBeforeOpetatorText, numberBeforeOperator) Then
-                    Throw New FormatException($"{numberBeforeOpetatorText} を整数に変換できません")
+                numberBeforeOperatorText = numberBeforeOperatorText & inputNumber.ToString()
+                If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
+                    Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
                 End If
             End If
 
-            Return numberBeforeOpetatorText
+            Return numberBeforeOperatorText
 
         Else
 
             If numberAfterOperator = 0 And addPoint = False Then
                 numberAfterOperator = inputNumber
-                numberAfterOpetatorText = numberAfterOperator.ToString()
+                numberAfterOperatorText = numberAfterOperator.ToString()
             ElseIf addPoint = True And addPointnumAfter = False Then
-                numberAfterOpetatorText = numberAfterOpetatorText & "." & inputNumber.ToString()
+                numberAfterOperatorText = numberAfterOperatorText & "." & inputNumber.ToString()
                 addPointnumAfter = True
                 addPoint = False
-                If Not Double.TryParse(numberAfterOpetatorText, numberAfterOperator) Then
-                    Throw New FormatException($"{numberAfterOpetatorText} を整数に変換できません")
+                If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
+                    Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
                 End If
             Else
-                numberAfterOpetatorText = numberAfterOpetatorText & inputNumber.ToString()
-                If Not Double.TryParse(numberAfterOpetatorText, numberAfterOperator) Then
-                    Throw New FormatException($"{numberAfterOpetatorText} を整数に変換できません")
+                numberAfterOperatorText = numberAfterOperatorText & inputNumber.ToString()
+                If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
+                    Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
                 End If
             End If
 
-            Return numberAfterOpetatorText
+            Return numberAfterOperatorText
 
         End If
 
@@ -108,8 +112,8 @@
         ' 数・演算子・直前の動作をリセット
         numberBeforeOperator = 0
         numberAfterOperator = 0
-        numberBeforeOpetatorText = "0"
-        numberAfterOpetatorText = "0"
+        numberBeforeOperatorText = "0"
+        numberAfterOperatorText = "0"
         operatorType = OperatorType.None
         previousAction = ActionType.ClearAction
         addPoint = False
@@ -132,7 +136,9 @@
         If Not numberAfterOperator = 0 Then
             Dim calculateResult = Calculate()
             numberBeforeOperator = calculateResult
+            numberBeforeOperatorText = numberBeforeOperator.ToString()
             numberAfterOperator = 0
+            numberAfterOperatorText = numberAfterOperator.ToString()
         End If
 
         previousAction = ActionType.OperatorAction
@@ -153,7 +159,7 @@
 
         '全ての変数・演算子の種類をリセット
         numberBeforeOperator = calculateResult
-        numberBeforeOpetatorText = numberBeforeOperator.ToString()
+        numberBeforeOperatorText = numberBeforeOperator.ToString()
         previousAction = ActionType.EqualAction
         addPoint = False
         addPointnumAfter = False
@@ -182,6 +188,10 @@
             Case OperatorType.Divide
                 calculateResult = numberBeforeOperator / numberAfterOperator
         End Select
+
+        addPoint = False
+        addPointnumAfter = False
+        addPointnumBefore = False
 
         Return calculateResult
 
