@@ -10,12 +10,6 @@
     Private addPointnumBefore As Boolean = False                    '演算子入力前の数値への小数点挿入判定
     Private addPointnumAfter As Boolean = False                     '演算子入力後の数値への小数点挿入判定
 
-    ''''''''''
-    'TODO:
-    '1.小数点以下数字の桁数制御
-    '2.
-    ''''''''''
-
     ''' <summary>
     ''' inputNumberを受けて表示される数を更新する
     ''' </summary>
@@ -27,11 +21,15 @@
             Clear()
         End If
 
+        ' 演算子が格納されていなければ、演算子入力前の数値(numberBeforeOperator)を操作する
         If operatorType = OperatorType.None Then
 
+            ' 数値が0で小数点の操作もなければ、入力の数値を代入する
             If numberBeforeOperator = 0 And addPoint = False Then
                 numberBeforeOperator = inputNumber
                 numberBeforeOperatorText = numberBeforeOperator.ToString()
+
+                ' 小数点のフラグがtrueであれば小数点を追加する
             ElseIf addPoint = True And addPointnumBefore = False Then
                 numberBeforeOperatorText = numberBeforeOperatorText & "." & inputNumber.ToString()
                 addPointnumBefore = True
@@ -39,6 +37,8 @@
                 If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
                     Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
                 End If
+
+                ' 上記2つ以外であれば、元の数値に入力された数値を付け加える
             Else
                 numberBeforeOperatorText = numberBeforeOperatorText & inputNumber.ToString()
                 If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
@@ -48,8 +48,10 @@
 
             Return numberBeforeOperatorText
 
+            ' 演算子が格納されていれば、演算子入力後の数値(numberAfterOperator)を操作する
         Else
 
+            ' 処理内容は上と同じ
             If numberAfterOperator = 0 And addPoint = False Then
                 numberAfterOperator = inputNumber
                 numberAfterOperatorText = numberAfterOperator.ToString()
@@ -93,11 +95,11 @@
         End If
 
         If addPointnumBefore = True And operatorType = OperatorType.None Then
-            Return numberBeforeOperator
+            Return numberBeforeOperatorText
         End If
 
         If addPointnumAfter = True Then
-            Return numberAfterOperator
+            Return numberAfterOperatorText
         End If
 
         Return currentNumber
