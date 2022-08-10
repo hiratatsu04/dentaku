@@ -69,7 +69,15 @@
 
     End Function
 
+    ''' <summary>
+    ''' 小数点を付与する
+    ''' </summary>
+    ''' <returns></returns>
     Public Function Point() As String
+
+        If previousAction = ActionType.EqualAction Then
+            Clear()
+        End If
 
         Dim currentNumber As String
         addPoint = True
@@ -129,6 +137,7 @@
 
         previousAction = ActionType.OperatorAction
         operatorType = inputOperatorType
+        addPoint = False
 
         Return numberBeforeOperator
 
