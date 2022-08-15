@@ -206,7 +206,7 @@ Public Class Calculator
     ''' </summary>
     ''' <param name="number"></param>
     ''' <returns></returns>
-    Private Shared Function ConvertToDecimal(number As String)
+    Private Shared Function ConvertToDecimal(number As String) As Decimal
 
         Dim value As Decimal
         Return If(Decimal.TryParse(number, value), value, 0)
