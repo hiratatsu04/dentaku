@@ -32,7 +32,7 @@ Partial Class Form1
         Me.btn2 = New System.Windows.Forms.Button()
         Me.btn1 = New System.Windows.Forms.Button()
         Me.btn0 = New System.Windows.Forms.Button()
-        Me.btnPeriod = New System.Windows.Forms.Button()
+        Me.btnPoint = New System.Windows.Forms.Button()
         Me.btnTimes = New System.Windows.Forms.Button()
         Me.btnClear = New System.Windows.Forms.Button()
         Me.btnDivide = New System.Windows.Forms.Button()
@@ -143,15 +143,15 @@ Partial Class Form1
         Me.btn0.Text = "0"
         Me.btn0.UseVisualStyleBackColor = True
         '
-        'btnPeriod
+        'btnPoint
         '
-        Me.btnPeriod.Font = New System.Drawing.Font("游ゴシック", 19.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.btnPeriod.Location = New System.Drawing.Point(177, 373)
-        Me.btnPeriod.Name = "btnPeriod"
-        Me.btnPeriod.Size = New System.Drawing.Size(70, 52)
-        Me.btnPeriod.TabIndex = 11
-        Me.btnPeriod.Text = "."
-        Me.btnPeriod.UseVisualStyleBackColor = True
+        Me.btnPoint.Font = New System.Drawing.Font("游ゴシック", 19.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.btnPoint.Location = New System.Drawing.Point(177, 373)
+        Me.btnPoint.Name = "btnPoint"
+        Me.btnPoint.Size = New System.Drawing.Size(70, 52)
+        Me.btnPoint.TabIndex = 11
+        Me.btnPoint.Text = "."
+        Me.btnPoint.UseVisualStyleBackColor = True
         '
         'btnTimes
         '
@@ -249,7 +249,7 @@ Partial Class Form1
         Me.Controls.Add(Me.btnDivide)
         Me.Controls.Add(Me.btnClear)
         Me.Controls.Add(Me.btnTimes)
-        Me.Controls.Add(Me.btnPeriod)
+        Me.Controls.Add(Me.btnPoint)
         Me.Controls.Add(Me.btn0)
         Me.Controls.Add(Me.btn3)
         Me.Controls.Add(Me.btn2)
@@ -279,7 +279,7 @@ Partial Class Form1
     Friend WithEvents btn2 As Button
     Friend WithEvents btn1 As Button
     Friend WithEvents btn0 As Button
-    Friend WithEvents btnPeriod As Button
+    Friend WithEvents btnPoint As Button
     Friend WithEvents btnTimes As Button
     Friend WithEvents btnClear As Button
     Friend WithEvents btnDivide As Button
