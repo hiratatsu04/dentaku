@@ -2,6 +2,8 @@
 
     Private numberBeforeOperator As Double = 0                      '演算子入力前の数値
     Private numberAfterOperator As Double = 0                       '演算子入力後の数値
+    Private numberBuffer As String = ""
+    Private numberCurrent As String = ""
     Private numberBeforeOperatorText As String = "0"                '演算子入力前の数値のテキスト。1.02などの小数点以下に0が入ったときの処理用
     Private numberAfterOperatorText As String = "0"                 '演算子入力後の数値のテキスト。同上
     Private operatorType As OperatorType = OperatorType.None        '演算子の種類を格納する
@@ -21,57 +23,61 @@
             Clear()
         End If
 
-        ' 演算子が格納されていなければ、演算子入力前の数値(numberBeforeOperator)を操作する
-        If operatorType = OperatorType.None Then
+        numberCurrent &= inputNumber
 
-            ' 数値が0で小数点の操作もなければ、入力の数値を代入する
-            If numberBeforeOperator = 0 And addPoint = False Then
-                numberBeforeOperator = inputNumber
-                numberBeforeOperatorText = numberBeforeOperator.ToString()
+        Return numberCurrent
 
-                ' 小数点のフラグがtrueであれば小数点を追加する
-            ElseIf addPoint = True And addPointnumBefore = False Then
-                numberBeforeOperatorText = numberBeforeOperatorText & "." & inputNumber.ToString()
-                addPointnumBefore = True
-                addPoint = False
-                If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
-                    Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
-                End If
+        '' 演算子が格納されていなければ、演算子入力前の数値(numberBeforeOperator)を操作する
+        'If operatorType = OperatorType.None Then
 
-                ' 上記2つ以外であれば、元の数値に入力された数値を付け加える
-            Else
-                numberBeforeOperatorText &= inputNumber.ToString()
-                If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
-                    Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
-                End If
-            End If
+        '    ' 数値が0で小数点の操作もなければ、入力の数値を代入する
+        '    If numberBeforeOperator = 0 And addPoint = False Then
+        '        numberBeforeOperator = inputNumber
+        '        numberBeforeOperatorText = numberBeforeOperator.ToString()
 
-            Return numberBeforeOperatorText
+        '        ' 小数点のフラグがtrueであれば小数点を追加する
+        '    ElseIf addPoint = True And addPointnumBefore = False Then
+        '        numberBeforeOperatorText = numberBeforeOperatorText & "." & inputNumber.ToString()
+        '        addPointnumBefore = True
+        '        addPoint = False
+        '        If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
+        '            Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
+        '        End If
 
-            ' 演算子が格納されていれば、演算子入力後の数値(numberAfterOperator)を操作する
-        Else
+        '        ' 上記2つ以外であれば、元の数値に入力された数値を付け加える
+        '    Else
+        '        numberBeforeOperatorText &= inputNumber.ToString()
+        '        If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
+        '            Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
+        '        End If
+        '    End If
 
-            ' 処理内容は上と同じ
-            If numberAfterOperator = 0 And addPoint = False Then
-                numberAfterOperator = inputNumber
-                numberAfterOperatorText = numberAfterOperator.ToString()
-            ElseIf addPoint = True And addPointnumAfter = False Then
-                numberAfterOperatorText = numberAfterOperatorText & "." & inputNumber.ToString()
-                addPointnumAfter = True
-                addPoint = False
-                If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
-                    Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
-                End If
-            Else
-                numberAfterOperatorText &= inputNumber.ToString()
-                If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
-                    Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
-                End If
-            End If
+        '    Return numberBeforeOperatorText
 
-            Return numberAfterOperatorText
+        '    ' 演算子が格納されていれば、演算子入力後の数値(numberAfterOperator)を操作する
+        'Else
 
-        End If
+        '    ' 処理内容は上と同じ
+        '    If numberAfterOperator = 0 And addPoint = False Then
+        '        numberAfterOperator = inputNumber
+        '        numberAfterOperatorText = numberAfterOperator.ToString()
+        '    ElseIf addPoint = True And addPointnumAfter = False Then
+        '        numberAfterOperatorText = numberAfterOperatorText & "." & inputNumber.ToString()
+        '        addPointnumAfter = True
+        '        addPoint = False
+        '        If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
+        '            Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
+        '        End If
+        '    Else
+        '        numberAfterOperatorText &= inputNumber.ToString()
+        '        If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
+        '            Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
+        '        End If
+        '    End If
+
+        '    Return numberAfterOperatorText
+
+        'End If
 
     End Function
 
@@ -85,24 +91,30 @@
             Clear()
         End If
 
-        Dim currentNumber As String
-        addPoint = True
-
-        If Not operatorType = OperatorType.None Then
-            currentNumber = numberAfterOperator.ToString() + "."
-        Else
-            currentNumber = numberBeforeOperator.ToString() + "."
+        If Not numberCurrent.Contains(".") = True Then
+            numberCurrent &= "."
         End If
 
-        If addPointnumBefore = True And operatorType = OperatorType.None Then
-            Return numberBeforeOperatorText
-        End If
+        Return numberCurrent
 
-        If addPointnumAfter = True Then
-            Return numberAfterOperatorText
-        End If
+        'Dim currentNumber As String
+        'addPoint = True
 
-        Return currentNumber
+        'If Not operatorType = OperatorType.None Then
+        '    currentNumber = numberAfterOperator.ToString() + "."
+        'Else
+        '    currentNumber = numberBeforeOperator.ToString() + "."
+        'End If
+
+        'If addPointnumBefore = True And operatorType = OperatorType.None Then
+        '    Return numberBeforeOperatorText
+        'End If
+
+        'If addPointnumAfter = True Then
+        '    Return numberAfterOperatorText
+        'End If
+
+        'Return currentNumber
 
     End Function
 
