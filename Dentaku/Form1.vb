@@ -52,7 +52,7 @@
                 operatorType = OperatorType.Divide
         End Select
 
-        Dim calculateResult As Double = calculatorObject.OperatorAction(operatorType)
+        Dim calculateResult As String = calculatorObject.OperatorAction(operatorType)
         txtShowOperator.Text = operatorTexts(operatorType)
         txtShowResult.Text = calculateResult
 
@@ -60,9 +60,9 @@
 
     Private Sub EqualButtonClick(sender As Object, e As EventArgs) Handles btnEqual.Click
 
-        Dim calculateResult As Double = calculatorObject.Equal()
+        Dim calculateResult As String = calculatorObject.Equal()
 
-        txtShowResult.Text = calculateResult.ToString()
+        txtShowResult.Text = calculateResult
         txtShowOperator.Text = "＝"
 
     End Sub
