@@ -14,7 +14,7 @@
     ''' inputNumberを受けて表示される数を更新する
     ''' </summary>
     ''' <param name="inputNumber">ユーザーからの数入力</param>
-    ''' <returns>画面に表示される数字(double型)</returns>
+    ''' <returns>画面に表示される数字(string型)</returns>
     Public Function Number(inputNumber As Integer) As String
 
         If previousAction = ActionType.EqualAction Then
@@ -40,7 +40,7 @@
 
                 ' 上記2つ以外であれば、元の数値に入力された数値を付け加える
             Else
-                numberBeforeOperatorText = numberBeforeOperatorText & inputNumber.ToString()
+                numberBeforeOperatorText &= inputNumber.ToString()
                 If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
                     Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
                 End If
@@ -63,7 +63,7 @@
                     Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
                 End If
             Else
-                numberAfterOperatorText = numberAfterOperatorText & inputNumber.ToString()
+                numberAfterOperatorText &= inputNumber.ToString()
                 If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
                     Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
                 End If
@@ -129,10 +129,11 @@
     ''' numberAfterOperatorに数値が入っていれば、計算結果を返す
     ''' </summary>
     ''' <param name="inputOperatorType"></param>
-    Public Function OperatorAction(inputOperatorType As OperatorType) As Double
+    Public Function OperatorAction(inputOperatorType As OperatorType) As String
 
         If previousAction = ActionType.EqualAction Then
             numberAfterOperator = 0
+            numberAfterOperatorText = "0"
         End If
 
         If Not numberAfterOperator = 0 Then
@@ -147,7 +148,7 @@
         operatorType = inputOperatorType
         addPoint = False
 
-        Return numberBeforeOperator
+        Return numberBeforeOperatorText
 
     End Function
 
@@ -155,7 +156,7 @@
     ''' 演算を実施後、変数・演算子の種類（メンバ変数）をリセット
     ''' </summary>
     ''' <returns></returns>
-    Public Function Equal() As Double
+    Public Function Equal() As String
 
         Dim calculateResult As Double = Calculate()
 
@@ -167,7 +168,7 @@
         addPointnumAfter = False
         addPointnumBefore = False
 
-        Return calculateResult
+        Return numberBeforeOperatorText
 
     End Function
 
