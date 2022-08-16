@@ -40,8 +40,13 @@ Public Class Calculator
 
     Private Const DefaultNumber As String = "0"
 
+<<<<<<< HEAD
     Private _OperandBufferText As String = String.Empty
     Private _OperandCurrentText As String = DefaultNumber
+=======
+    Private _OperandBufferText As String = DefaultNumber
+    Private _OperandCurrentText As String = String.Empty
+>>>>>>> c370003cb60423c9c0b5950d172fa816fffdf5ec
     Private _DisplayOperand = DisplayOperand.OperandCurrent
     Private _OperatorType As OperatorType = OperatorType.None        '演算子の種類を格納する
     Private _PreviousAction As ActionType = ActionType.ClearAction   '一つ前の動作を格納する
@@ -52,9 +57,12 @@ Public Class Calculator
     ''' <returns>表示値の文字列</returns>
     Public ReadOnly Property DisplayNumberText
         Get
+<<<<<<< HEAD
             Debug.WriteLine($"Buffer = {_OperandBufferText}")
             Debug.WriteLine($"Current = {_OperandCurrentText}")
             Debug.WriteLine($"Display = {_DisplayOperand}")
+=======
+>>>>>>> c370003cb60423c9c0b5950d172fa816fffdf5ec
             Return If(_DisplayOperand = DisplayOperand.OperandCurrent, _OperandCurrentText, _OperandBufferText)
         End Get
     End Property
@@ -107,6 +115,10 @@ Public Class Calculator
     ''' <summary>
     ''' 小数点を付与する
     ''' </summary>
+<<<<<<< HEAD
+=======
+    ''' <returns></returns>
+>>>>>>> c370003cb60423c9c0b5950d172fa816fffdf5ec
     Public Sub Point()
 
         If _PreviousAction = ActionType.EqualAction Then
@@ -126,8 +138,13 @@ Public Class Calculator
     ''' </summary>
     Public Sub Clear()
 
+<<<<<<< HEAD
         _OperandBufferText = String.Empty
         _OperandCurrentText = DefaultNumber
+=======
+        _OperandBufferText = DefaultNumber
+        _OperandCurrentText = String.Empty
+>>>>>>> c370003cb60423c9c0b5950d172fa816fffdf5ec
         _DisplayOperand = DisplayOperand.OperandCurrent
         _OperatorType = OperatorType.None
         _PreviousAction = ActionType.ClearAction
@@ -141,10 +158,15 @@ Public Class Calculator
     ''' <param name="inputOperatorType"></param>
     Public Sub OperatorAction(inputOperatorType As OperatorType)
 
+<<<<<<< HEAD
         If _PreviousAction = ActionType.NumberAction Then
             If Not String.IsNullOrEmpty(_OperandBufferText) Then
                 Calculate()
             End If
+=======
+        If Not String.IsNullOrEmpty(_OperandBufferText) Then
+            Calculate()
+>>>>>>> c370003cb60423c9c0b5950d172fa816fffdf5ec
         End If
 
         _PreviousAction = ActionType.OperatorAction
@@ -171,11 +193,16 @@ Public Class Calculator
         Dim op2 = ConvertToDecimal(_OperandCurrentText)
 
         Dim result = Calculate(_OperatorType, op1, op2)
+<<<<<<< HEAD
         _OperandBufferText = CleanDisplayNumber(result.ToString())
+=======
+        _OperandBufferText = result.ToString()
+>>>>>>> c370003cb60423c9c0b5950d172fa816fffdf5ec
         _DisplayOperand = DisplayOperand.OperandBuffer
 
     End Sub
 
+<<<<<<< HEAD
     Private Shared Function CleanDisplayNumber(str As String) As String
 
         If str.Contains(".") Then
@@ -188,6 +215,8 @@ Public Class Calculator
 
     End Function
 
+=======
+>>>>>>> c370003cb60423c9c0b5950d172fa816fffdf5ec
     Private Shared Function ConvertToDecimal(number As String)
 
         Dim value As Decimal
