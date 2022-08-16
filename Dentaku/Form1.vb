@@ -29,7 +29,8 @@
         End If
 
         Try
-            txtShowResult.Text = calculatorObject.Number(inputNumber)
+            calculatorObject.Number(inputNumber)
+            txtShowResult.Text = calculatorObject.DisplayNumberText
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
@@ -52,17 +53,17 @@
                 operatorType = OperatorType.Divide
         End Select
 
-        Dim calculateResult As String = calculatorObject.OperatorAction(operatorType)
+        calculatorObject.OperatorAction(operatorType)
         txtShowOperator.Text = operatorTexts(operatorType)
-        txtShowResult.Text = calculateResult
+        txtShowResult.Text = calculatorObject.DisplayNumberText
 
     End Sub
 
     Private Sub EqualButtonClick(sender As Object, e As EventArgs) Handles btnEqual.Click
 
-        Dim calculateResult As String = calculatorObject.Equal()
+        calculatorObject.Equal()
 
-        txtShowResult.Text = calculateResult
+        txtShowResult.Text = calculatorObject.DisplayNumberText
         txtShowOperator.Text = "＝"
 
     End Sub
@@ -78,9 +79,9 @@
 
     Private Sub btnPeriod_Click(sender As Object, e As EventArgs) Handles btnPoint.Click
 
-        Dim currentNumber As String = calculatorObject.Point()
+        calculatorObject.Point()
 
-        txtShowResult.Text = currentNumber
+        txtShowResult.Text = calculatorObject.DisplayNumberText
 
     End Sub
 End Class
