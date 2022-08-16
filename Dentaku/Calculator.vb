@@ -1,51 +1,134 @@
-﻿Public Class Calculator
+﻿Imports System.Text.RegularExpressions
 
-    Private numberBuffer As String = ""
-    Private numberCurrent As String = ""
-    Private operatorType As OperatorType = OperatorType.None        '演算子の種類を格納する
-    Private previousAction As ActionType = ActionType.ClearAction   '一つ前の動作を格納する
+Public Class Calculator
 
     ''' <summary>
-    ''' inputNumberを受けて表示される数を更新する
+    ''' 計算機動作の列挙型
+    ''' </summary>
+    Public Enum ActionType
+        ''' <summary>
+        ''' 数ボタン押下時の動作
+        ''' </summary>
+        NumberAction
+        ''' <summary>
+        ''' 演算子ボタン押下時の動作
+        ''' </summary>
+        OperatorAction
+        ''' <summary>
+        ''' イコールボタン押下時の動作
+        ''' </summary>
+        EqualAction
+        ''' <summary>
+        ''' クリアボタン押下時の動作
+        ''' </summary>
+        ClearAction
+    End Enum
+
+    ''' <summary>
+    ''' 表示値として表示する値を表します。
+    ''' </summary>
+    Private Enum DisplayOperand
+        ''' <summary>
+        ''' 被演算子Bufferを表示値にします。
+        ''' </summary>
+        OperandBuffer = 1
+        ''' <summary>
+        ''' 被演算子Currentを表示値にします。
+        ''' </summary>
+        OperandCurrent = 2
+    End Enum
+
+    Private Const DefaultNumber As String = "0"
+
+    Private _OperandBufferText As String = DefaultNumber
+    Private _OperandCurrentText As String = String.Empty
+    Private _DisplayOperand = DisplayOperand.OperandCurrent
+    Private _OperatorType As OperatorType = OperatorType.None        '演算子の種類を格納する
+    Private _PreviousAction As ActionType = ActionType.ClearAction   '一つ前の動作を格納する
+
+    ''' <summary>
+    ''' 表示値を取得します。
+    ''' </summary>
+    ''' <returns>表示値の文字列</returns>
+    Public ReadOnly Property DisplayNumberText
+        Get
+            Return If(_DisplayOperand = DisplayOperand.OperandCurrent, _OperandCurrentText, _OperandBufferText)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 数字入力の処理を実行します。
     ''' </summary>
     ''' <param name="inputNumber">ユーザーからの数入力</param>
-    ''' <returns>画面に表示される数字(string型)</returns>
-    Public Function Number(inputNumber As Integer) As String
+    Public Sub Number(inputNumber As Integer)
 
-        If previousAction = ActionType.EqualAction Then
-            Clear()
+        If inputNumber < 0 OrElse inputNumber > 9 Then
+            Throw New ArgumentOutOfRangeException(NameOf(inputNumber))
         End If
 
-        numberCurrent &= inputNumber
+        If _PreviousAction = ActionType.EqualAction Then
+            Clear()
+        ElseIf _PreviousAction = ActionType.OperatorAction Then
+            ShiftOperand()
+        End If
 
-        Return numberCurrent
+        ' inputNumberをChar型に変換
+        AddChar(inputNumber.ToString()(0))
 
-    End Function
+        _PreviousAction = ActionType.NumberAction
+
+    End Sub
+
+    Private Sub ShiftOperand()
+        _OperandBufferText = _OperandCurrentText
+        _OperandCurrentText = DefaultNumber
+        _DisplayOperand = DisplayOperand.OperandCurrent
+    End Sub
+
+    Private Sub AddChar(key As Char)
+
+        If _OperandCurrentText = "0" Then
+            If key = "0" Then
+                ' 0のときに0は追加しない
+                Return
+            ElseIf key >= "1" AndAlso key <= "9" Then
+                _OperandCurrentText = ""
+            End If
+        End If
+
+        _OperandCurrentText &= key
+        _DisplayOperand = DisplayOperand.OperandCurrent
+
+    End Sub
 
     ''' <summary>
     ''' 小数点を付与する
     ''' </summary>
     ''' <returns></returns>
-    Public Function Point() As String
+    Public Sub Point()
 
-        If Not numberCurrent.Contains(".") = True Then
-            numberCurrent &= "."
+        If _PreviousAction = ActionType.EqualAction Then
+            Clear()
+        ElseIf _PreviousAction = ActionType.OperatorAction Then
+            ShiftOperand()
         End If
 
-        Return numberCurrent
+        AddChar("."c)
 
-    End Function
+        _PreviousAction = ActionType.NumberAction
+
+    End Sub
 
     ''' <summary>
     ''' 数・演算子（メンバ変数）をクリアする
     ''' </summary>
     Public Sub Clear()
 
-        ' 数・演算子・直前の動作をリセット
-        numberBuffer = ""
-        numberCurrent = ""
-        operatorType = OperatorType.None
-        previousAction = ActionType.ClearAction
+        _OperandBufferText = DefaultNumber
+        _OperandCurrentText = String.Empty
+        _DisplayOperand = DisplayOperand.OperandCurrent
+        _OperatorType = OperatorType.None
+        _PreviousAction = ActionType.ClearAction
 
     End Sub
 
@@ -54,35 +137,45 @@
     ''' numberAfterOperatorに数値が入っていれば、計算結果を返す
     ''' </summary>
     ''' <param name="inputOperatorType"></param>
-    Public Function OperatorAction(inputOperatorType As OperatorType) As String
+    Public Sub OperatorAction(inputOperatorType As OperatorType)
 
-        If Not numberBuffer = "" Then
-            numberCurrent = Calculate()
-            numberBuffer = ""
+        If Not String.IsNullOrEmpty(_OperandBufferText) Then
+            Calculate()
         End If
 
-        numberBuffer = numberCurrent
-        numberCurrent = ""
+        _PreviousAction = ActionType.OperatorAction
+        _OperatorType = inputOperatorType
 
-        previousAction = ActionType.OperatorAction
-        operatorType = inputOperatorType
-
-        Return numberBuffer
-
-    End Function
+    End Sub
 
     ''' <summary>
     ''' 演算を実施後、変数・演算子の種類（メンバ変数）をリセット
     ''' </summary>
-    ''' <returns></returns>
-    Public Function Equal() As String
+    Public Sub Equal()
 
-        numberCurrent = Calculate()
+        If Not String.IsNullOrEmpty(_OperandBufferText) Then
+            Calculate()
+        End If
 
-        numberBuffer = ""
-        previousAction = ActionType.EqualAction
+        _PreviousAction = ActionType.EqualAction
 
-        Return numberCurrent
+    End Sub
+
+    Private Sub Calculate()
+
+        Dim op1 = ConvertToDecimal(_OperandBufferText)
+        Dim op2 = ConvertToDecimal(_OperandCurrentText)
+
+        Dim result = Calculate(_OperatorType, op1, op2)
+        _OperandBufferText = result.ToString()
+        _DisplayOperand = DisplayOperand.OperandBuffer
+
+    End Sub
+
+    Private Shared Function ConvertToDecimal(number As String)
+
+        Dim value As Decimal
+        Return If(Decimal.TryParse(number, value), value, 0)
 
     End Function
 
@@ -90,32 +183,20 @@
     ''' numberBeforeOpetatorとnumberAfterOpetatorを演算子に応じて計算する。
     ''' </summary>
     ''' <returns></returns>
-    Private Function Calculate() As String
-
-        Dim calculateResult As Double = 0
-        Dim num1, num2 As Double
-
-        If Not Double.TryParse(numberBuffer, num1) Then
-            Throw New FormatException($"{numberBuffer} を整数に変換できません")
-        End If
-        If Not Double.TryParse(numberCurrent, num2) Then
-            Throw New FormatException($"{numberCurrent} を整数に変換できません")
-        End If
+    Private Function Calculate(operatorType As OperatorType, op1 As Decimal, op2 As Decimal) As Decimal
 
         '演算子ボタンの種類に応じて計算する
-        Select Case operatorType
+        Select Case _OperatorType
             Case OperatorType.Plus
-                calculateResult = num1 + num2
+                Return op1 + op2
             Case OperatorType.Minus
-                calculateResult = num1 - num2
+                Return op1 - op2
             Case OperatorType.Times
-                calculateResult = num1 * num2
+                Return op1 * op2
             Case OperatorType.Divide
-                calculateResult = num1 / num2
+                Return op1 / op2
         End Select
-
-        Return calculateResult.ToString()
-
+        Return 0
     End Function
 
 End Class
