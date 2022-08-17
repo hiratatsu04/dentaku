@@ -157,7 +157,7 @@ Public Class Calculator
     ''' </summary>
     Public Sub Equal()
 
-        If _PreviousAction = ActionType.NumberAction Then
+        If _PreviousAction = ActionType.NumberAction OrElse _PreviousAction = ActionType.EqualAction Then
             If Not String.IsNullOrEmpty(_OperandBufferText) Then
                 Calculate()
             End If
