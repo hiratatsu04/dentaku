@@ -1,126 +1,136 @@
-﻿Public Class Calculator
+﻿Imports System.Text.RegularExpressions
 
-    Private numberBeforeOperator As Double = 0                      '演算子入力前の数値
-    Private numberAfterOperator As Double = 0                       '演算子入力後の数値
-    Private numberBeforeOperatorText As String = "0"                '演算子入力前の数値のテキスト。1.02などの小数点以下に0が入ったときの処理用
-    Private numberAfterOperatorText As String = "0"                 '演算子入力後の数値のテキスト。同上
-    Private operatorType As OperatorType = OperatorType.None        '演算子の種類を格納する
-    Private previousAction As ActionType = ActionType.ClearAction   '一つ前の動作を格納する
-    Private addPoint As Boolean = False                             '小数点の要否判断に用いる
-    Private addPointnumBefore As Boolean = False                    '演算子入力前の数値への小数点挿入判定
-    Private addPointnumAfter As Boolean = False                     '演算子入力後の数値への小数点挿入判定
+Public Class Calculator
 
     ''' <summary>
-    ''' inputNumberを受けて表示される数を更新する
+    ''' 計算機動作の列挙型
+    ''' </summary>
+    Public Enum ActionType
+        ''' <summary>
+        ''' 数ボタン押下時の動作
+        ''' </summary>
+        NumberAction
+        ''' <summary>
+        ''' 演算子ボタン押下時の動作
+        ''' </summary>
+        OperatorAction
+        ''' <summary>
+        ''' イコールボタン押下時の動作
+        ''' </summary>
+        EqualAction
+        ''' <summary>
+        ''' クリアボタン押下時の動作
+        ''' </summary>
+        ClearAction
+    End Enum
+
+    ''' <summary>
+    ''' 表示値として表示する値を表します。
+    ''' </summary>
+    Private Enum DisplayOperand
+        ''' <summary>
+        ''' 被演算子Bufferを表示値にします。
+        ''' </summary>
+        OperandBuffer = 1
+        ''' <summary>
+        ''' 被演算子Currentを表示値にします。
+        ''' </summary>
+        OperandCurrent = 2
+    End Enum
+
+    Private Const DefaultNumber = "0"
+
+    Private _OperandBufferText = String.Empty
+    Private _OperandCurrentText As String = DefaultNumber
+    Private _DisplayOperand = DisplayOperand.OperandCurrent
+    Private _OperatorType As OperatorType = OperatorType.None        '演算子の種類を格納する
+    Private _PreviousAction As ActionType = ActionType.ClearAction   '一つ前の動作を格納する
+
+    ''' <summary>
+    ''' 表示値を取得します。
+    ''' </summary>
+    ''' <returns>表示値の文字列</returns>
+    Public ReadOnly Property DisplayNumberText
+        Get
+            Debug.WriteLine($"Buffer = {_OperandBufferText}")
+            Debug.WriteLine($"Current = {_OperandCurrentText}")
+            Debug.WriteLine($"Display = {_DisplayOperand}")
+            Return If(_DisplayOperand = DisplayOperand.OperandCurrent, _OperandCurrentText, _OperandBufferText)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 数字入力の処理を実行します。
     ''' </summary>
     ''' <param name="inputNumber">ユーザーからの数入力</param>
-    ''' <returns>画面に表示される数字(string型)</returns>
-    Public Function Number(inputNumber As Integer) As String
+    Public Sub Number(inputNumber As Integer)
 
-        If previousAction = ActionType.EqualAction Then
+        If inputNumber < 0 OrElse inputNumber > 9 Then
+            Throw New ArgumentOutOfRangeException(NameOf(inputNumber))
+        End If
+
+        If _PreviousAction = ActionType.EqualAction Then
             Clear()
+        ElseIf _PreviousAction = ActionType.OperatorAction Then
+            ShiftOperand()
         End If
 
-        ' 演算子が格納されていなければ、演算子入力前の数値(numberBeforeOperator)を操作する
-        If operatorType = OperatorType.None Then
+        ' inputNumberをChar型に変換
+        AddChar(inputNumber.ToString()(0))
 
-            ' 数値が0で小数点の操作もなければ、入力の数値を代入する
-            If numberBeforeOperator = 0 And addPoint = False Then
-                numberBeforeOperator = inputNumber
-                numberBeforeOperatorText = numberBeforeOperator.ToString()
+        _PreviousAction = ActionType.NumberAction
 
-                ' 小数点のフラグがtrueであれば小数点を追加する
-            ElseIf addPoint = True And addPointnumBefore = False Then
-                numberBeforeOperatorText = numberBeforeOperatorText & "." & inputNumber.ToString()
-                addPointnumBefore = True
-                addPoint = False
-                If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
-                    Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
-                End If
+    End Sub
 
-                ' 上記2つ以外であれば、元の数値に入力された数値を付け加える
-            Else
-                numberBeforeOperatorText &= inputNumber.ToString()
-                If Not Double.TryParse(numberBeforeOperatorText, numberBeforeOperator) Then
-                    Throw New FormatException($"{numberBeforeOperatorText} を整数に変換できません")
-                End If
+    Private Sub ShiftOperand()
+        _OperandBufferText = DisplayNumberText
+        _OperandCurrentText = DefaultNumber
+        _DisplayOperand = DisplayOperand.OperandCurrent
+    End Sub
+
+    Private Sub AddChar(key As Char)
+
+        If _OperandCurrentText = "0" Then
+            If key = "0" Then
+                ' 0のときに0は追加しない
+                Return
+            ElseIf key >= "1" AndAlso key <= "9" Then
+                _OperandCurrentText = ""
             End If
-
-            Return numberBeforeOperatorText
-
-            ' 演算子が格納されていれば、演算子入力後の数値(numberAfterOperator)を操作する
-        Else
-
-            ' 処理内容は上と同じ
-            If numberAfterOperator = 0 And addPoint = False Then
-                numberAfterOperator = inputNumber
-                numberAfterOperatorText = numberAfterOperator.ToString()
-            ElseIf addPoint = True And addPointnumAfter = False Then
-                numberAfterOperatorText = numberAfterOperatorText & "." & inputNumber.ToString()
-                addPointnumAfter = True
-                addPoint = False
-                If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
-                    Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
-                End If
-            Else
-                numberAfterOperatorText &= inputNumber.ToString()
-                If Not Double.TryParse(numberAfterOperatorText, numberAfterOperator) Then
-                    Throw New FormatException($"{numberAfterOperatorText} を整数に変換できません")
-                End If
-            End If
-
-            Return numberAfterOperatorText
-
         End If
 
-    End Function
+        _OperandCurrentText &= key
+        _DisplayOperand = DisplayOperand.OperandCurrent
+
+    End Sub
 
     ''' <summary>
     ''' 小数点を付与する
     ''' </summary>
-    ''' <returns></returns>
-    Public Function Point() As String
+    Public Sub Point()
 
-        If previousAction = ActionType.EqualAction Then
+        If _PreviousAction = ActionType.EqualAction Then
             Clear()
+        ElseIf _PreviousAction = ActionType.OperatorAction Then
+            ShiftOperand()
         End If
 
-        Dim currentNumber As String
-        addPoint = True
+        AddChar("."c)
 
-        If Not operatorType = OperatorType.None Then
-            currentNumber = numberAfterOperator.ToString() + "."
-        Else
-            currentNumber = numberBeforeOperator.ToString() + "."
-        End If
+        _PreviousAction = ActionType.NumberAction
 
-        If addPointnumBefore = True And operatorType = OperatorType.None Then
-            Return numberBeforeOperatorText
-        End If
-
-        If addPointnumAfter = True Then
-            Return numberAfterOperatorText
-        End If
-
-        Return currentNumber
-
-    End Function
+    End Sub
 
     ''' <summary>
     ''' 数・演算子（メンバ変数）をクリアする
     ''' </summary>
     Public Sub Clear()
 
-        ' 数・演算子・直前の動作をリセット
-        numberBeforeOperator = 0
-        numberAfterOperator = 0
-        numberBeforeOperatorText = "0"
-        numberAfterOperatorText = "0"
-        operatorType = OperatorType.None
-        previousAction = ActionType.ClearAction
-        addPoint = False
-        addPointnumAfter = False
-        addPointnumBefore = False
+        _OperandBufferText = String.Empty
+        _OperandCurrentText = DefaultNumber
+        _DisplayOperand = DisplayOperand.OperandCurrent
+        _OperatorType = OperatorType.None
+        _PreviousAction = ActionType.ClearAction
 
     End Sub
 
@@ -129,46 +139,61 @@
     ''' numberAfterOperatorに数値が入っていれば、計算結果を返す
     ''' </summary>
     ''' <param name="inputOperatorType"></param>
-    Public Function OperatorAction(inputOperatorType As OperatorType) As String
+    Public Sub OperatorAction(inputOperatorType As OperatorType)
 
-        If previousAction = ActionType.EqualAction Then
-            numberAfterOperator = 0
-            numberAfterOperatorText = "0"
+        If _PreviousAction = ActionType.NumberAction Then
+            If Not String.IsNullOrEmpty(_OperandBufferText) Then
+                Calculate()
+            End If
         End If
 
-        If Not numberAfterOperator = 0 Then
-            Dim calculateResult = Calculate()
-            numberBeforeOperator = calculateResult
-            numberBeforeOperatorText = numberBeforeOperator.ToString()
-            numberAfterOperator = 0
-            numberAfterOperatorText = numberAfterOperator.ToString()
-        End If
+        _PreviousAction = ActionType.OperatorAction
+        _OperatorType = inputOperatorType
 
-        previousAction = ActionType.OperatorAction
-        operatorType = inputOperatorType
-        addPoint = False
-
-        Return numberBeforeOperatorText
-
-    End Function
+    End Sub
 
     ''' <summary>
     ''' 演算を実施後、変数・演算子の種類（メンバ変数）をリセット
     ''' </summary>
-    ''' <returns></returns>
-    Public Function Equal() As String
+    Public Sub Equal()
 
-        Dim calculateResult As Double = Calculate()
+        If _PreviousAction = ActionType.NumberAction OrElse _PreviousAction = ActionType.EqualAction Then
+            If Not String.IsNullOrEmpty(_OperandBufferText) Then
+                Calculate()
+            End If
+        End If
 
-        '全ての変数・演算子の種類をリセット
-        numberBeforeOperator = calculateResult
-        numberBeforeOperatorText = numberBeforeOperator.ToString()
-        previousAction = ActionType.EqualAction
-        addPoint = False
-        addPointnumAfter = False
-        addPointnumBefore = False
+        _PreviousAction = ActionType.EqualAction
 
-        Return numberBeforeOperatorText
+    End Sub
+
+    Private Sub Calculate()
+
+        Dim op1 = ConvertToDecimal(_OperandBufferText)
+        Dim op2 = ConvertToDecimal(_OperandCurrentText)
+
+        Dim result = Calculate(_OperatorType, op1, op2)
+        _OperandBufferText = CleanDisplayNumber(result.ToString())
+        _DisplayOperand = DisplayOperand.OperandBuffer
+
+    End Sub
+
+    Private Shared Function CleanDisplayNumber(str As String) As String
+
+        If str.Contains(".") Then
+            ' 末尾の 0 を削除
+            str = Regex.Replace(str, "0+$", "")
+        End If
+        ' 最後に小数点があれば削除
+        str = Regex.Replace(str, "\.$", "")
+        Return str
+
+    End Function
+
+    Private Shared Function ConvertToDecimal(number As String)
+
+        Dim value As Decimal
+        Return If(Decimal.TryParse(number, value), value, 0)
 
     End Function
 
@@ -176,28 +201,20 @@
     ''' numberBeforeOpetatorとnumberAfterOpetatorを演算子に応じて計算する。
     ''' </summary>
     ''' <returns></returns>
-    Private Function Calculate() As Double
-
-        Dim calculateResult As Double = 0
+    Private Function Calculate(operatorType As OperatorType, op1 As Decimal, op2 As Decimal) As Decimal
 
         '演算子ボタンの種類に応じて計算する
-        Select Case operatorType
+        Select Case _OperatorType
             Case OperatorType.Plus
-                calculateResult = numberBeforeOperator + numberAfterOperator
+                Return op1 + op2
             Case OperatorType.Minus
-                calculateResult = numberBeforeOperator - numberAfterOperator
+                Return op1 - op2
             Case OperatorType.Times
-                calculateResult = numberBeforeOperator * numberAfterOperator
+                Return op1 * op2
             Case OperatorType.Divide
-                calculateResult = numberBeforeOperator / numberAfterOperator
+                Return op1 / op2
         End Select
-
-        addPoint = False
-        addPointnumAfter = False
-        addPointnumBefore = False
-
-        Return calculateResult
-
+        Return 0
     End Function
 
 End Class

@@ -28,18 +28,4 @@
         None
     End Enum
 
-    ''' <summary>
-    ''' <para>計算機動作の列挙型</para>
-    ''' <para>・NumberAction：数ボタン押下時の動作</para>
-    ''' <para>・OperatorAction：演算子ボタン押下時の動作</para>
-    ''' <para>・EqualAction：イコールボタン押下時の動作</para>
-    ''' <para>・ClearAciton：クリアボタン押下時の動作</para>
-    ''' </summary>
-    Public Enum ActionType
-        NumberAction
-        OperatorAction
-        EqualAction
-        ClearAction
-    End Enum
-
 End Module
