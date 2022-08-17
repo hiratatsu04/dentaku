@@ -73,7 +73,7 @@
         calculatorObject.Clear()
 
         txtShowOperator.Text = ""
-        txtShowResult.Text = ""
+        txtShowResult.Text = calculatorObject.DisplayNumberText
 
     End Sub
 

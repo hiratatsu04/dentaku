@@ -83,7 +83,7 @@ Public Class Calculator
     End Sub
 
     Private Sub ShiftOperand()
-        _OperandBufferText = _OperandCurrentText
+        _OperandBufferText = DisplayNumberText
         _OperandCurrentText = DefaultNumber
         _DisplayOperand = DisplayOperand.OperandCurrent
     End Sub
