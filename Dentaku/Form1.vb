@@ -84,4 +84,58 @@
         txtShowResult.Text = calculatorObject.DisplayNumberText
 
     End Sub
+
+    ''' <summary>
+    ''' フォームKeyDownイベント
+    ''' </summary>
+    Private Sub frmFunc_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        'キーコードにより処理する
+        Select Case e.KeyCode
+            Case Keys.D0
+                Me.btn0.Focus()              'フォーカスセット
+                Me.btn0.PerformClick()       'ボタン１クリック実行
+            Case Keys.D1
+                Me.btn1.Focus()              'フォーカスセット
+                Me.btn1.PerformClick()       'ボタン１クリック実行
+            Case Keys.D2
+                Me.btn2.Focus()              'フォーカスセット
+                Me.btn2.PerformClick()       'ボタン１クリック実行
+            Case Keys.D3
+                Me.btn3.Focus()              'フォーカスセット
+                Me.btn3.PerformClick()       'ボタン１クリック実行
+            Case Keys.D4
+                Me.btn4.Focus()              'フォーカスセット
+                Me.btn4.PerformClick()       'ボタン１クリック実行
+            Case Keys.D5
+                Me.btn5.Focus()              'フォーカスセット
+                Me.btn5.PerformClick()       'ボタン１クリック実行
+            Case Keys.D6
+                Me.btn6.Focus()              'フォーカスセット
+                Me.btn6.PerformClick()       'ボタン１クリック実行
+            Case Keys.D7
+                Me.btn7.Focus()              'フォーカスセット
+                Me.btn7.PerformClick()       'ボタン１クリック実行
+            Case Keys.D8
+                Me.btn8.Focus()              'フォーカスセット
+                Me.btn8.PerformClick()       'ボタン１クリック実行
+            Case Keys.D9
+                Me.btn9.Focus()              'フォーカスセット
+                Me.btn9.PerformClick()       'ボタン１クリック実行
+            Case Keys.OemPeriod
+                Me.btnPoint.Focus()              'フォーカスセット
+                Me.btnPoint.PerformClick()       'ボタン１クリック実行
+            Case Keys.Return
+                Me.btnEqual.Focus()              'フォーカスセット
+                Me.btnEqual.PerformClick()       'ボタン１クリック実行
+        End Select
+        e.Handled = True                    '他にKeyDownイベントを発生させない
+
+        Debug.WriteLine(e.KeyCode)
+
+    End Sub
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
+    End Sub
+
 End Class
