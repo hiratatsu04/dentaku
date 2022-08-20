@@ -1,6 +1,11 @@
 ﻿Public Class Form1
 
     Dim calculatorObject As New Calculator
+    Dim bufferKeyCode As Keys
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
+    End Sub
 
     ''' <summary>
     ''' キー：OperatorType
@@ -85,10 +90,46 @@
 
     End Sub
 
+    Protected Overrides Function ProcessDialogKey(ByVal keyData As Keys) As Boolean
+        Select Case keyData
+            Case Keys.Return
+                Me.btnEqual.Focus()              'フォーカスセット
+                Me.btnEqual.PerformClick()       'イコールボタンクリック実行
+            Case Keys.Down
+                Me.SelectNextControl(
+                  Me.ActiveControl, True, True, True, True)
+            Case Keys.Right
+                Me.SelectNextControl(
+                  Me.ActiveControl, True, True, True, True)
+            Case Keys.Up
+                Me.SelectNextControl(
+                  Me.ActiveControl, False, True, True, True)
+            Case Keys.Left
+                Me.SelectNextControl(
+                  Me.ActiveControl, False, True, True, True)
+            Case Else
+                Return MyBase.ProcessDialogKey(keyData)
+        End Select
+        Return True
+    End Function
+
     ''' <summary>
     ''' フォームKeyDownイベント
     ''' </summary>
     Private Sub frmFunc_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+
+        If bufferKeyCode = Keys.ShiftKey Then
+            If e.KeyCode = Keys.Oemplus Then
+                Me.btnPlus.Focus()              'フォーカスセット
+                Me.btnPlus.PerformClick()       'ボタン１クリック実行
+            ElseIf e.KeyCode = Keys.Oem1 Then
+                Me.btnTimes.Focus()              'フォーカスセット
+                Me.btnTimes.PerformClick()       'ボタン１クリック実行
+            End If
+        End If
+
+        bufferKeyCode = e.KeyCode
+
         'キーコードにより処理する
         Select Case e.KeyCode
             Case Keys.D0
@@ -124,18 +165,20 @@
             Case Keys.OemPeriod
                 Me.btnPoint.Focus()              'フォーカスセット
                 Me.btnPoint.PerformClick()       'ボタン１クリック実行
-            Case Keys.Return
-                Me.btnEqual.Focus()              'フォーカスセット
-                Me.btnEqual.PerformClick()       'ボタン１クリック実行
+            Case Keys.OemQuestion
+                Me.btnDivide.Focus()              'フォーカスセット
+                Me.btnDivide.PerformClick()       'ボタン１クリック実行
+            Case Keys.OemMinus
+                Me.btnMinus.Focus()              'フォーカスセット
+                Me.btnMinus.PerformClick()       'ボタン１クリック実行
+            Case Keys.Delete
+                Me.btnClear.Focus()              'フォーカスセット
+                Me.btnClear.PerformClick()       'ボタン１クリック実行
         End Select
         e.Handled = True                    '他にKeyDownイベントを発生させない
 
         Debug.WriteLine(e.KeyCode)
 
-    End Sub
-
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.KeyPreview = True
     End Sub
 
 End Class
