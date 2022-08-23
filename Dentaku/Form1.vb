@@ -109,7 +109,7 @@
     ''' </summary>
     Private Sub KeyDownAction(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
 
-        Dim btnControlByKeyCode As New Dictionary(Of Keys, Button)() From
+        Dim btnControlByKeyData As New Dictionary(Of Keys, Button)() From
         {
         {Keys.D0, Me.btn0},
         {Keys.D1, Me.btn1},
@@ -140,7 +140,7 @@
             Me.btnEqual.PerformClick()       'イコールボタンクリック実行
         End If
 
-        If btnControlByKeyCode.TryGetValue(e.KeyData, btnControl) = True Then
+        If btnControlByKeyData.TryGetValue(e.KeyData, btnControl) = True Then
             btnControl.Focus()
             btnControl.PerformClick()
         End If
@@ -160,7 +160,7 @@
         '    End If
         'Else
         '    ' イコールボタン(Shift + OemMinus)と通常のマイナスボタン(OemMinus)との競合を避けるために、以下の処理をIf分のelseに入れている
-        '    If btnControlByKeyCode.TryGetValue(e.KeyCode, btnControl) = True Then
+        '    If btnControlByKeyData.TryGetValue(e.KeyCode, btnControl) = True Then
         '        btnControl.Focus()
         '        btnControl.PerformClick()
         '    End If
