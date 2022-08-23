@@ -52,9 +52,6 @@ Public Class Calculator
     ''' <returns>表示値の文字列</returns>
     Public ReadOnly Property DisplayNumberText
         Get
-            Debug.WriteLine($"Buffer = {_OperandBufferText}")
-            Debug.WriteLine($"Current = {_OperandCurrentText}")
-            Debug.WriteLine($"Display = {_DisplayOperand}")
             Return If(_DisplayOperand = DisplayOperand.OperandCurrent, _OperandCurrentText, _OperandBufferText)
         End Get
     End Property

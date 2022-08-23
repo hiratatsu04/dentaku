@@ -221,7 +221,7 @@ Partial Class Form1
         Me.txtShowResult.Name = "txtShowResult"
         Me.txtShowResult.ReadOnly = True
         Me.txtShowResult.Size = New System.Drawing.Size(398, 84)
-        Me.txtShowResult.TabIndex = 20
+        Me.txtShowResult.TabIndex = 8
         Me.txtShowResult.TabStop = False
         Me.txtShowResult.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -233,7 +233,8 @@ Partial Class Form1
         Me.txtShowOperator.Name = "txtShowOperator"
         Me.txtShowOperator.ReadOnly = True
         Me.txtShowOperator.Size = New System.Drawing.Size(49, 46)
-        Me.txtShowOperator.TabIndex = 21
+        Me.txtShowOperator.TabIndex = 5
+        Me.txtShowOperator.TabStop = False
         Me.txtShowOperator.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Form1

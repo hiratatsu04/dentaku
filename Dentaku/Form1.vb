@@ -1,6 +1,11 @@
 ﻿Public Class Form1
 
     Dim calculatorObject As New Calculator
+    Dim bufferKeyCode As Keys
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
+    End Sub
 
     ''' <summary>
     ''' キー：OperatorType
@@ -84,4 +89,56 @@
         txtShowResult.Text = calculatorObject.DisplayNumberText
 
     End Sub
+
+    Protected Overrides Function ProcessDialogKey(ByVal keyData As Keys) As Boolean
+
+        Select Case keyData
+            Case Keys.Return
+                Me.btnEqual.Focus()              'フォーカスセット
+                Me.btnEqual.PerformClick()       'イコールボタンクリック実行
+            Case Else
+                Return MyBase.ProcessDialogKey(keyData)
+        End Select
+
+        Return True
+
+    End Function
+
+    ''' <summary>
+    ''' フォームKeyDownイベント
+    ''' </summary>
+    Private Sub KeyDownAction(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+
+        Dim btnControlByKeyData As New Dictionary(Of Keys, Button)() From
+        {
+        {Keys.D0, Me.btn0},
+        {Keys.D1, Me.btn1},
+        {Keys.D2, Me.btn2},
+        {Keys.D3, Me.btn3},
+        {Keys.D4, Me.btn4},
+        {Keys.D5, Me.btn5},
+        {Keys.D6, Me.btn6},
+        {Keys.D7, Me.btn7},
+        {Keys.D8, Me.btn8},
+        {Keys.D9, Me.btn9},
+        {Keys.OemPeriod, Me.btnPoint},
+        {Keys.OemQuestion, Me.btnDivide},
+        {Keys.OemMinus, Me.btnMinus},
+        {Keys.Delete, Me.btnClear},
+        {Keys.Shift + Keys.Oemplus, Me.btnPlus},
+        {Keys.Shift + Keys.Oem1, Me.btnTimes},
+        {Keys.Shift + Keys.OemMinus, Me.btnEqual}
+        }
+
+        Dim btnControl As Button = Nothing
+
+        If btnControlByKeyData.TryGetValue(e.KeyData, btnControl) = True Then
+            btnControl.Focus()
+            btnControl.PerformClick()
+        End If
+
+        e.Handled = True
+
+    End Sub
+
 End Class
