@@ -91,26 +91,17 @@
     End Sub
 
     Protected Overrides Function ProcessDialogKey(ByVal keyData As Keys) As Boolean
+
         Select Case keyData
             Case Keys.Return
                 Me.btnEqual.Focus()              'フォーカスセット
                 Me.btnEqual.PerformClick()       'イコールボタンクリック実行
-            Case Keys.Down
-                Me.SelectNextControl(
-                  Me.ActiveControl, True, True, True, True)
-            Case Keys.Right
-                Me.SelectNextControl(
-                  Me.ActiveControl, True, True, True, True)
-            Case Keys.Up
-                Me.SelectNextControl(
-                  Me.ActiveControl, False, True, True, True)
-            Case Keys.Left
-                Me.SelectNextControl(
-                  Me.ActiveControl, False, True, True, True)
             Case Else
                 Return MyBase.ProcessDialogKey(keyData)
         End Select
+
         Return True
+
     End Function
 
     ''' <summary>
@@ -118,66 +109,46 @@
     ''' </summary>
     Private Sub frmFunc_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
 
-        If bufferKeyCode = Keys.ShiftKey Then
+        Dim btnControlByKeyCode As New Dictionary(Of Keys, Button)() From
+        {
+        {Keys.D0, Me.btn0},
+        {Keys.D1, Me.btn1},
+        {Keys.D2, Me.btn2},
+        {Keys.D3, Me.btn3},
+        {Keys.D4, Me.btn4},
+        {Keys.D5, Me.btn5},
+        {Keys.D6, Me.btn6},
+        {Keys.D7, Me.btn7},
+        {Keys.D8, Me.btn8},
+        {Keys.D9, Me.btn9},
+        {Keys.OemPeriod, Me.btnPoint},
+        {Keys.OemQuestion, Me.btnDivide},
+        {Keys.OemMinus, Me.btnMinus},
+        {Keys.Delete, Me.btnClear}
+        }
+
+        Dim btnControl As Button = Nothing
+
+        If e.Modifiers = Keys.Shift Then
             If e.KeyCode = Keys.Oemplus Then
                 Me.btnPlus.Focus()              'フォーカスセット
                 Me.btnPlus.PerformClick()       'ボタン１クリック実行
             ElseIf e.KeyCode = Keys.Oem1 Then
                 Me.btnTimes.Focus()              'フォーカスセット
                 Me.btnTimes.PerformClick()       'ボタン１クリック実行
+            ElseIf e.KeyCode = Keys.OemMinus Then
+                Me.btnEqual.Focus()              'フォーカスセット
+                Me.btnEqual.PerformClick()       'イコールボタンクリック実行
+            End If
+        Else
+            ' イコールボタン(Shift + OemMinus)と通常のマイナスボタン(OemMinus)との競合を避けるために、以下の処理をIf分のelseに入れている
+            If btnControlByKeyCode.TryGetValue(e.KeyCode, btnControl) = True Then
+                btnControl.Focus()
+                btnControl.PerformClick()
             End If
         End If
 
-        bufferKeyCode = e.KeyCode
-
-        'キーコードにより処理する
-        Select Case e.KeyCode
-            Case Keys.D0
-                Me.btn0.Focus()              'フォーカスセット
-                Me.btn0.PerformClick()       'ボタン１クリック実行
-            Case Keys.D1
-                Me.btn1.Focus()              'フォーカスセット
-                Me.btn1.PerformClick()       'ボタン１クリック実行
-            Case Keys.D2
-                Me.btn2.Focus()              'フォーカスセット
-                Me.btn2.PerformClick()       'ボタン１クリック実行
-            Case Keys.D3
-                Me.btn3.Focus()              'フォーカスセット
-                Me.btn3.PerformClick()       'ボタン１クリック実行
-            Case Keys.D4
-                Me.btn4.Focus()              'フォーカスセット
-                Me.btn4.PerformClick()       'ボタン１クリック実行
-            Case Keys.D5
-                Me.btn5.Focus()              'フォーカスセット
-                Me.btn5.PerformClick()       'ボタン１クリック実行
-            Case Keys.D6
-                Me.btn6.Focus()              'フォーカスセット
-                Me.btn6.PerformClick()       'ボタン１クリック実行
-            Case Keys.D7
-                Me.btn7.Focus()              'フォーカスセット
-                Me.btn7.PerformClick()       'ボタン１クリック実行
-            Case Keys.D8
-                Me.btn8.Focus()              'フォーカスセット
-                Me.btn8.PerformClick()       'ボタン１クリック実行
-            Case Keys.D9
-                Me.btn9.Focus()              'フォーカスセット
-                Me.btn9.PerformClick()       'ボタン１クリック実行
-            Case Keys.OemPeriod
-                Me.btnPoint.Focus()              'フォーカスセット
-                Me.btnPoint.PerformClick()       'ボタン１クリック実行
-            Case Keys.OemQuestion
-                Me.btnDivide.Focus()              'フォーカスセット
-                Me.btnDivide.PerformClick()       'ボタン１クリック実行
-            Case Keys.OemMinus
-                Me.btnMinus.Focus()              'フォーカスセット
-                Me.btnMinus.PerformClick()       'ボタン１クリック実行
-            Case Keys.Delete
-                Me.btnClear.Focus()              'フォーカスセット
-                Me.btnClear.PerformClick()       'ボタン１クリック実行
-        End Select
-        e.Handled = True                    '他にKeyDownイベントを発生させない
-
-        Debug.WriteLine(e.KeyCode)
+        e.Handled = True
 
     End Sub
 
