@@ -107,7 +107,7 @@
     ''' <summary>
     ''' フォームKeyDownイベント
     ''' </summary>
-    Private Sub frmFunc_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+    Private Sub KeyDownAction(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
 
         Dim btnControlByKeyCode As New Dictionary(Of Keys, Button)() From
         {
