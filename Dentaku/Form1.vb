@@ -129,24 +129,42 @@
 
         Dim btnControl As Button = Nothing
 
-        If e.Modifiers = Keys.Shift Then
-            If e.KeyCode = Keys.Oemplus Then
-                Me.btnPlus.Focus()              'フォーカスセット
-                Me.btnPlus.PerformClick()       'ボタン１クリック実行
-            ElseIf e.KeyCode = Keys.Oem1 Then
-                Me.btnTimes.Focus()              'フォーカスセット
-                Me.btnTimes.PerformClick()       'ボタン１クリック実行
-            ElseIf e.KeyCode = Keys.OemMinus Then
-                Me.btnEqual.Focus()              'フォーカスセット
-                Me.btnEqual.PerformClick()       'イコールボタンクリック実行
-            End If
-        Else
-            ' イコールボタン(Shift + OemMinus)と通常のマイナスボタン(OemMinus)との競合を避けるために、以下の処理をIf分のelseに入れている
-            If btnControlByKeyCode.TryGetValue(e.KeyCode, btnControl) = True Then
-                btnControl.Focus()
-                btnControl.PerformClick()
-            End If
+        If e.KeyData = Keys.Shift + Keys.Oemplus Then
+            Me.btnPlus.Focus()              'フォーカスセット
+            Me.btnPlus.PerformClick()       'ボタン１クリック実行
+        ElseIf e.KeyData = Keys.Shift + Keys.Oem1 Then
+            Me.btnTimes.Focus()              'フォーカスセット
+            Me.btnTimes.PerformClick()       'ボタン１クリック実行
+        ElseIf e.KeyData = Keys.Shift + Keys.OemMinus Then
+            Me.btnEqual.Focus()              'フォーカスセット
+            Me.btnEqual.PerformClick()       'イコールボタンクリック実行
         End If
+
+        If btnControlByKeyCode.TryGetValue(e.KeyData, btnControl) = True Then
+            btnControl.Focus()
+            btnControl.PerformClick()
+        End If
+
+        ' 以下でも同じ処理が可能
+
+        'If e.Modifiers = Keys.Shift Then
+        '    If e.KeyCode = Keys.Oemplus Then
+        '        Me.btnPlus.Focus()              'フォーカスセット
+        '        Me.btnPlus.PerformClick()       'ボタン１クリック実行
+        '    ElseIf e.KeyCode = Keys.Oem1 Then
+        '        Me.btnTimes.Focus()              'フォーカスセット
+        '        Me.btnTimes.PerformClick()       'ボタン１クリック実行
+        '    ElseIf e.KeyCode = Keys.OemMinus Then
+        '        Me.btnEqual.Focus()              'フォーカスセット
+        '        Me.btnEqual.PerformClick()       'イコールボタンクリック実行
+        '    End If
+        'Else
+        '    ' イコールボタン(Shift + OemMinus)と通常のマイナスボタン(OemMinus)との競合を避けるために、以下の処理をIf分のelseに入れている
+        '    If btnControlByKeyCode.TryGetValue(e.KeyCode, btnControl) = True Then
+        '        btnControl.Focus()
+        '        btnControl.PerformClick()
+        '    End If
+        'End If
 
         e.Handled = True
 
